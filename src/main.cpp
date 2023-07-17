@@ -45,10 +45,12 @@ namespace
 
     void title_screen(bn::sprite_text_generator &text_generator)
     {
-        bn::music_items::amfa_2.play(0.5);
+        bn::music_items::hassans_spaceship.play(0.5);
 
         Deck deck = Deck();
-        deck.shuffle();
+
+        bn::random rng = bn::random();
+        deck.shuffle(rng.get());
 
         Table table = Table(deck);
 
@@ -56,70 +58,80 @@ namespace
 
         Hand hand = table.getHand(0);
 
-
         bn::sprite_ptr cards_sprite = bn::sprite_items::cards_diamond.create_sprite(1, 1);
 
         bn::sprite_ptr hand_sprite_1 = bn::sprite_items::cards_diamond.create_sprite(1, 1);
         bn::sprite_ptr hand_sprite_2 = bn::sprite_items::cards_diamond.create_sprite(1, 1);
 
-        if (hand.card1.suit == DIAMONDS)
-        {
-
-            hand_sprite_1 = bn::sprite_items::cards_diamond.create_sprite(20, 20);
-            hand_sprite_1.set_tiles(bn::sprite_items::cards_diamond.tiles_item().create_tiles(hand.card1.rank));
-        }
-        else if (hand.card1.suit == HEARTS)
-        {
-
-            hand_sprite_1 = bn::sprite_items::cards_hearts.create_sprite(20, 20);
-            hand_sprite_1.set_tiles(bn::sprite_items::cards_hearts.tiles_item().create_tiles(hand.card1.rank));
-        }
-        else if (hand.card1.suit == SPADES)
-        {
-
-            hand_sprite_1 = bn::sprite_items::cards_spades.create_sprite(20, 20);
-            hand_sprite_1.set_tiles(bn::sprite_items::cards_spades.tiles_item().create_tiles(hand.card1.rank));
-        }
-        else
-        {
-
-            hand_sprite_1 = bn::sprite_items::cards_clubs.create_sprite(20, 20);
-            hand_sprite_1.set_tiles(bn::sprite_items::cards_clubs.tiles_item().create_tiles(hand.card1.rank));
-        }
-
-        if (hand.card2.suit == DIAMONDS)
-        {
-
-            hand_sprite_2 = bn::sprite_items::cards_diamond.create_sprite(40, 20);
-            hand_sprite_2.set_tiles(bn::sprite_items::cards_diamond.tiles_item().create_tiles(hand.card2.rank));
-        }
-        else if (hand.card2.suit == HEARTS)
-        {
-
-            hand_sprite_2 = bn::sprite_items::cards_hearts.create_sprite(40, 20);
-            hand_sprite_2.set_tiles(bn::sprite_items::cards_hearts.tiles_item().create_tiles(hand.card2.rank));
-        }
-        else if (hand.card2.suit == SPADES)
-        {
-
-            hand_sprite_2 = bn::sprite_items::cards_spades.create_sprite(40, 20);
-            hand_sprite_2.set_tiles(bn::sprite_items::cards_spades.tiles_item().create_tiles(hand.card2.rank));
-        }
-        else
-        {
-
-            hand_sprite_2 = bn::sprite_items::cards_clubs.create_sprite(40, 20);
-            hand_sprite_2.set_tiles(bn::sprite_items::cards_clubs.tiles_item().create_tiles(hand.card2.rank));
-        }
-
         while (1)
         {
-            bn::vector<bn::sprite_ptr, 2> text_sprites;
+            if (bn::keypad::start_pressed())
+            {
+                deck.shuffle(rng.get());
+                table = Table(deck);
+                table.dealHands();
+                hand = table.getHand(0);
+            }
+            if (hand.card1.suit == DIAMONDS)
+            {
+
+                hand_sprite_1 = bn::sprite_items::cards_diamond.create_sprite(20, 20);
+                hand_sprite_1.set_tiles(bn::sprite_items::cards_diamond.tiles_item().create_tiles(hand.card1.rank));
+            }
+            else if (hand.card1.suit == HEARTS)
+            {
+
+                hand_sprite_1 = bn::sprite_items::cards_hearts.create_sprite(20, 20);
+                hand_sprite_1.set_tiles(bn::sprite_items::cards_hearts.tiles_item().create_tiles(hand.card1.rank));
+            }
+            else if (hand.card1.suit == SPADES)
+            {
+
+                hand_sprite_1 = bn::sprite_items::cards_spades.create_sprite(20, 20);
+                hand_sprite_1.set_tiles(bn::sprite_items::cards_spades.tiles_item().create_tiles(hand.card1.rank));
+            }
+            else
+            {
+
+                hand_sprite_1 = bn::sprite_items::cards_clubs.create_sprite(20, 20);
+                hand_sprite_1.set_tiles(bn::sprite_items::cards_clubs.tiles_item().create_tiles(hand.card1.rank));
+            }
+
+            if (hand.card2.suit == DIAMONDS)
+            {
+
+                hand_sprite_2 = bn::sprite_items::cards_diamond.create_sprite(40, 20);
+                hand_sprite_2.set_tiles(bn::sprite_items::cards_diamond.tiles_item().create_tiles(hand.card2.rank));
+            }
+            else if (hand.card2.suit == HEARTS)
+            {
+
+                hand_sprite_2 = bn::sprite_items::cards_hearts.create_sprite(40, 20);
+                hand_sprite_2.set_tiles(bn::sprite_items::cards_hearts.tiles_item().create_tiles(hand.card2.rank));
+            }
+            else if (hand.card2.suit == SPADES)
+            {
+
+                hand_sprite_2 = bn::sprite_items::cards_spades.create_sprite(40, 20);
+                hand_sprite_2.set_tiles(bn::sprite_items::cards_spades.tiles_item().create_tiles(hand.card2.rank));
+            }
+            else
+            {
+
+                hand_sprite_2 = bn::sprite_items::cards_clubs.create_sprite(40, 20);
+                hand_sprite_2.set_tiles(bn::sprite_items::cards_clubs.tiles_item().create_tiles(hand.card2.rank));
+            }
+            bn::vector<bn::sprite_ptr, 4> text_sprites;
             bn::string<32> text;
             bn::ostringstream text_stream(text);
-            // text_stream.append("123456789");
+            text_stream.append(hand.card1.rank + 1);
+            text_stream.append(hand.card1.suit);
+            text_stream.append(" & ");
+            text_stream.append(hand.card2.rank + 1);
+            text_stream.append(hand.card2.suit);
+            text_stream.append(" Gay poker ");
             text_sprites.clear();
-            text_generator.generate(0, 0, text, text_sprites);
+            text_generator.generate(-50, -50, text, text_sprites);
 
             if (bn::keypad::left_held())
             {

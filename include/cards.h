@@ -41,7 +41,7 @@ class Deck
 {
 public:
     Deck();
-    void shuffle();
+    void shuffle(int seed);
     Card deal();
     int getDeckSize();
 
@@ -59,12 +59,12 @@ Deck::Deck()
     }
 }
 
-void Deck::shuffle()
+void Deck::shuffle(int seed)
 {
     for (int i = 0; i < 52; i++)
     {
         bn::random rng = bn::random();
-        int j = rng.get_int(52);
+        int j = rng.get() % (i + 1);
         Card temp = this->deck[i];
         this->deck[i] = this->deck[j];
         this->deck[j] = temp;
@@ -130,14 +130,14 @@ public:
     void dealFlop();
     void dealTurn();
     void dealRiver();
-    bn::vector<Hand, 6> getHands();
+    bn::vector<Hand, 2> getHands();
     Hand getHand(int index);
     Dealer getDealer();
 
 private:
     Deck deck;
     Dealer dealer;
-    bn::vector<Hand, 6> hands;
+    bn::vector<Hand, 2> hands;
 };
 
 Table::Table(Deck deck)
@@ -147,7 +147,7 @@ Table::Table(Deck deck)
 
 void Table::dealHands()
 {
-    for (size_t i = 0; i < 6; i++)
+    for (size_t i = 0; i < 1; i++)
     {
         this->hands.push_back(Hand(this->deck.deal(), this->deck.deal()));
     }
@@ -168,7 +168,7 @@ void Table::dealRiver()
     this->dealer.dealRiver(this->deck.deal());
 }
 
-bn::vector<Hand, 6> Table::getHands()
+bn::vector<Hand, 2> Table::getHands()
 {
     return this->hands;
 }
