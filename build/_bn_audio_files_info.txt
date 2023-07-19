@@ -1,5 +1,7 @@
 audio/amfa_2.mod
 1689544649.5315895
+audio/erotic.xm
+1689639019.4978807
 audio/hassans_spaceship.xm
 1689610875.2124496
 audio/soda7_xcopy_ohc.s3m

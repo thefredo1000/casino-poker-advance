@@ -41,7 +41,7 @@ class Deck
 {
 public:
     Deck();
-    void shuffle(int seed);
+    void shuffle();
     Card deal();
     int getDeckSize();
 
@@ -59,7 +59,7 @@ Deck::Deck()
     }
 }
 
-void Deck::shuffle(int seed)
+void Deck::shuffle()
 {
     for (int i = 0; i < 52; i++)
     {

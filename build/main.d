@@ -29,6 +29,9 @@ main.o: \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_memory_alias.h \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_string.h \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_keypad.h \
+ /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_display.h \
+ /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/../hw/include/bn_hw_display_constants.h \
+ /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_common.h \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_bg_palettes.h \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_config_log.h \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_log_backend.h \
@@ -59,6 +62,9 @@ main.o: \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_sprite_palette_ptr.h \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_sprite_affine_mat_ptr.h \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_sprite_double_size_mode.h \
+ /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_sprites_mosaic_actions.h \
+ /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_sprites_mosaic.h \
+ /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_template_actions.h \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/build/bn_music_items.h \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_music_item.h \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/../../common/include/common_info.h \
@@ -66,11 +72,15 @@ main.o: \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_vector.h \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_sprite_ptr.h \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_string_view.h \
- /Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/../../common/include/common_variable_8x16_sprite_font.h \
+ /Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/../../common/include/common_variable_8x8_sprite_font.h \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_sprite_font.h \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_utf8_characters_map.h \
- /Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/build/bn_sprite_items_common_variable_8x16_font.h \
+ /Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/build/bn_sprite_items_common_variable_8x8_font.h \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_sprite_item.h \
+ /Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/../../common/include/common_variable_8x16_sprite_font.h \
+ /Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/build/bn_sprite_items_common_variable_8x16_font.h \
+ /Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/../../common/include/common_variable_16x16_sprite_font.h \
+ /Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/build/bn_sprite_items_common_variable_16x16_font.h \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/build/bn_sprite_items_red_sprite.h \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/build/bn_sprite_items_cards_diamond.h \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/build/bn_sprite_items_cards_hearts.h \
@@ -111,6 +121,9 @@ main.o: \
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_memory_alias.h:
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_string.h:
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_keypad.h:
+/Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_display.h:
+/Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/../hw/include/bn_hw_display_constants.h:
+/Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_common.h:
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_bg_palettes.h:
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_config_log.h:
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_log_backend.h:
@@ -141,6 +154,9 @@ main.o: \
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_sprite_palette_ptr.h:
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_sprite_affine_mat_ptr.h:
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_sprite_double_size_mode.h:
+/Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_sprites_mosaic_actions.h:
+/Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_sprites_mosaic.h:
+/Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_template_actions.h:
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/build/bn_music_items.h:
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_music_item.h:
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/../../common/include/common_info.h:
@@ -148,11 +164,15 @@ main.o: \
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_vector.h:
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_sprite_ptr.h:
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_string_view.h:
-/Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/../../common/include/common_variable_8x16_sprite_font.h:
+/Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/../../common/include/common_variable_8x8_sprite_font.h:
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_sprite_font.h:
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_utf8_characters_map.h:
-/Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/build/bn_sprite_items_common_variable_8x16_font.h:
+/Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/build/bn_sprite_items_common_variable_8x8_font.h:
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_sprite_item.h:
+/Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/../../common/include/common_variable_8x16_sprite_font.h:
+/Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/build/bn_sprite_items_common_variable_8x16_font.h:
+/Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/../../common/include/common_variable_16x16_sprite_font.h:
+/Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/build/bn_sprite_items_common_variable_16x16_font.h:
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/build/bn_sprite_items_red_sprite.h:
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/build/bn_sprite_items_cards_diamond.h:
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/build/bn_sprite_items_cards_hearts.h:
