@@ -21,10 +21,13 @@
 #include "common_variable_8x16_sprite_font.h"
 #include "common_variable_16x16_sprite_font.h"
 #include "bn_sprite_items_red_sprite.h"
+#include "bn_sprite_items_chips.h"
+#include "bn_sprite_items_chip_margin.h"
 #include "bn_sprite_items_cards_diamond.h"
 #include "bn_sprite_items_cards_hearts.h"
 #include "bn_sprite_items_cards_spades.h"
 #include "bn_sprite_items_cards_clubs.h"
+#include "bn_sprite_items_card_back.h"
 
 #include "cards.h"
 
@@ -33,22 +36,6 @@ namespace
     constexpr bn::fixed text_y_inc = 14;
     constexpr bn::fixed text_y_limit = (bn::display::height() / 2) - text_y_inc;
 
-    void show_player_hand(Hand hand)
-    {
-
-        if (hand.card1.suit == DIAMONDS)
-        {
-
-            bn::sprite_ptr diamond_cards_sprite = bn::sprite_items::cards_diamond.create_sprite(0, 0);
-            diamond_cards_sprite.set_tiles(bn::sprite_items::cards_diamond.tiles_item().create_tiles(hand.card1.rank));
-        }
-        else
-        {
-
-            bn::sprite_ptr hearts_cards_sprite = bn::sprite_items::cards_hearts.create_sprite(0, 0);
-            hearts_cards_sprite.set_tiles(bn::sprite_items::cards_hearts.tiles_item().create_tiles(hand.card1.rank));
-        }
-    }
 
     void title_screen()
     {
@@ -92,37 +79,36 @@ namespace
             text_sprites[i].set_mosaic_enabled(true);
         }
 
-        int i = 0;
-        int slow = 0;
+        int rotation = 0;
         bool clockwise = true;
         while (!bn::keypad::start_pressed())
         {
 
-            diamond_cards_sprite.set_rotation_angle(i);
-            hearts_cards_sprite.set_rotation_angle(i);
-            spades_cards_sprite.set_rotation_angle(i);
-            clubs_cards_sprite.set_rotation_angle(i);
+            diamond_cards_sprite.set_rotation_angle(rotation);
+            hearts_cards_sprite.set_rotation_angle(rotation);
+            spades_cards_sprite.set_rotation_angle(rotation);
+            clubs_cards_sprite.set_rotation_angle(rotation);
 
             if (clockwise)
             {
-                i++;
+                rotation++;
             }
             else
             {
-                i--;
+                rotation--;
             }
 
-            if (i > 20 && i < 340)
+            if (rotation > 20 && rotation < 340)
             {
                 clockwise = !clockwise;
             }
-            else if (i == 0)
+            else if (rotation == 0)
             {
-                i = 360;
+                rotation = 360;
             }
-            else if (i == 360)
+            else if (rotation == 360)
             {
-                i = 0;
+                rotation = 0;
             }
             bn::core::update();
         }
@@ -135,7 +121,7 @@ namespace
         }
     }
 
-    void menu_screen()
+    uint32_t menu_screen()
     {
 
         bn::sprite_text_generator title_text_generator(common::variable_16x16_sprite_font);
@@ -158,16 +144,18 @@ namespace
         bn::sprite_ptr card_sprite_left = bn::sprite_items::cards_spades.create_sprite(-56, -24);
         bn::sprite_ptr card_sprite_right = bn::sprite_items::cards_diamond.create_sprite(56, -24);
 
+        int text_index = 0;
 
-        unsigned int text_index = 0;
-
-        while (!bn::keypad::a_pressed() || !bn::keypad::start_pressed()
+        while (!bn::keypad::a_pressed() && !bn::keypad::start_pressed())
         {
             card_sprite_left.set_y((text_index - 1) * 24);
             card_sprite_right.set_y((text_index - 1) * 24);
-            if(bn::keypad::up_pressed()) {
+            if (bn::keypad::up_pressed())
+            {
                 text_index = text_index - (text_index != 0);
-            } else if (bn::keypad::down_pressed()) {
+            }
+            else if (bn::keypad::down_pressed())
+            {
                 text_index = text_index + (text_index != 3);
             }
 
@@ -175,15 +163,42 @@ namespace
         }
 
         bn::music::stop();
+        return text_index;
     }
 
+    void show_player_hand(Card card, bn::sprite_ptr &hand_sprite, int x, int y)
+    {
+
+            switch (card.suit)
+            {
+            case DIAMONDS:
+                hand_sprite = bn::sprite_items::cards_diamond.create_sprite(x, y);
+                hand_sprite.set_tiles(bn::sprite_items::cards_diamond.tiles_item().create_tiles(card.rank));
+                break;
+            case HEARTS:
+                hand_sprite = bn::sprite_items::cards_hearts.create_sprite(x, y);
+                hand_sprite.set_tiles(bn::sprite_items::cards_hearts.tiles_item().create_tiles(card.rank));
+                break;
+            case SPADES:
+                hand_sprite = bn::sprite_items::cards_spades.create_sprite(x, y);
+                hand_sprite.set_tiles(bn::sprite_items::cards_spades.tiles_item().create_tiles(card.rank));
+                break;
+            case CLUBS:
+                hand_sprite = bn::sprite_items::cards_clubs.create_sprite(x, y);
+                hand_sprite.set_tiles(bn::sprite_items::cards_clubs.tiles_item().create_tiles(card.rank));
+                break;
+            default:
+                hand_sprite = bn::sprite_items::card_back.create_sprite(x, y);
+                break;
+            }
+
+    }
     void deck_screen(bn::sprite_text_generator &text_generator)
     {
         bn::music_items::hassans_spaceship.play(0.5);
 
         Deck deck = Deck();
 
-        bn::random rng = bn::random();
         deck.shuffle();
 
         Table table = Table(deck);
@@ -192,10 +207,13 @@ namespace
 
         Hand hand = table.getHand(0);
 
-        bn::sprite_ptr cards_sprite = bn::sprite_items::cards_diamond.create_sprite(1, 1);
+        bn::sprite_ptr cards_sprite = bn::sprite_items::chips.create_sprite(1, 1);
 
         bn::sprite_ptr hand_sprite_1 = bn::sprite_items::cards_diamond.create_sprite(1, 1);
         bn::sprite_ptr hand_sprite_2 = bn::sprite_items::cards_diamond.create_sprite(1, 1);
+
+        bn::sprite_ptr chip_margin = bn::sprite_items::chip_margin.create_sprite(1, 1);
+        chip_margin.set_z_order(1);
 
         while (1)
         {
@@ -206,55 +224,12 @@ namespace
                 table.dealHands();
                 hand = table.getHand(0);
             }
-            if (hand.card1.suit == DIAMONDS)
-            {
 
-                hand_sprite_1 = bn::sprite_items::cards_diamond.create_sprite(20, 20);
-                hand_sprite_1.set_tiles(bn::sprite_items::cards_diamond.tiles_item().create_tiles(hand.card1.rank));
-            }
-            else if (hand.card1.suit == HEARTS)
-            {
 
-                hand_sprite_1 = bn::sprite_items::cards_hearts.create_sprite(20, 20);
-                hand_sprite_1.set_tiles(bn::sprite_items::cards_hearts.tiles_item().create_tiles(hand.card1.rank));
-            }
-            else if (hand.card1.suit == SPADES)
-            {
+            show_player_hand(hand.card1, hand_sprite_1, 20, 20);
+            show_player_hand(hand.card2, hand_sprite_2, 40, 20);
 
-                hand_sprite_1 = bn::sprite_items::cards_spades.create_sprite(20, 20);
-                hand_sprite_1.set_tiles(bn::sprite_items::cards_spades.tiles_item().create_tiles(hand.card1.rank));
-            }
-            else
-            {
 
-                hand_sprite_1 = bn::sprite_items::cards_clubs.create_sprite(20, 20);
-                hand_sprite_1.set_tiles(bn::sprite_items::cards_clubs.tiles_item().create_tiles(hand.card1.rank));
-            }
-
-            if (hand.card2.suit == DIAMONDS)
-            {
-
-                hand_sprite_2 = bn::sprite_items::cards_diamond.create_sprite(40, 20);
-                hand_sprite_2.set_tiles(bn::sprite_items::cards_diamond.tiles_item().create_tiles(hand.card2.rank));
-            }
-            else if (hand.card2.suit == HEARTS)
-            {
-
-                hand_sprite_2 = bn::sprite_items::cards_hearts.create_sprite(40, 20);
-                hand_sprite_2.set_tiles(bn::sprite_items::cards_hearts.tiles_item().create_tiles(hand.card2.rank));
-            }
-            else if (hand.card2.suit == SPADES)
-            {
-
-                hand_sprite_2 = bn::sprite_items::cards_spades.create_sprite(40, 20);
-                hand_sprite_2.set_tiles(bn::sprite_items::cards_spades.tiles_item().create_tiles(hand.card2.rank));
-            }
-            else
-            {
-
-                hand_sprite_2 = bn::sprite_items::cards_clubs.create_sprite(40, 20);
-                hand_sprite_2.set_tiles(bn::sprite_items::cards_clubs.tiles_item().create_tiles(hand.card2.rank));
-            }
             bn::vector<bn::sprite_ptr, 4> text_sprites;
             bn::string<32> text;
             bn::ostringstream text_stream(text);
@@ -269,23 +244,23 @@ namespace
 
             if (bn::keypad::left_held())
             {
-                cards_sprite.set_tiles(bn::sprite_items::cards_diamond.tiles_item().create_tiles(8));
+                cards_sprite.set_tiles(bn::sprite_items::chips.tiles_item().create_tiles(1));
                 cards_sprite.set_x(cards_sprite.x() - 1);
             }
             else if (bn::keypad::right_held())
             {
-                cards_sprite.set_tiles(bn::sprite_items::cards_diamond.tiles_item().create_tiles(12));
+                cards_sprite.set_tiles(bn::sprite_items::chips.tiles_item().create_tiles(2));
                 cards_sprite.set_x(cards_sprite.x() + 1);
             }
 
             if (bn::keypad::up_held())
             {
-                cards_sprite.set_tiles(bn::sprite_items::cards_diamond.tiles_item().create_tiles(4));
+                cards_sprite.set_tiles(bn::sprite_items::chips.tiles_item().create_tiles(3));
                 cards_sprite.set_y(cards_sprite.y() - 1);
             }
             else if (bn::keypad::down_held())
             {
-                cards_sprite.set_tiles(bn::sprite_items::cards_diamond.tiles_item().create_tiles(0));
+                cards_sprite.set_tiles(bn::sprite_items::chips.tiles_item().create_tiles(4));
                 cards_sprite.set_y(cards_sprite.y() + 1);
             }
             bn::core::update();
@@ -304,7 +279,16 @@ int main()
     bn::core::update();
     bn::bg_palettes::set_transparent_color(bn::color(6, 12, 9));
 
-    menu_screen();
+    uint32_t option = menu_screen();
     bn::core::update();
-    deck_screen(text_generator);
+
+    switch (option)
+    {
+    case 0:
+        deck_screen(text_generator);
+        break;
+
+    default:
+        break;
+    }
 }

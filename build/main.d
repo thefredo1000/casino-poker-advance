@@ -82,10 +82,13 @@ main.o: \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/../../common/include/common_variable_16x16_sprite_font.h \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/build/bn_sprite_items_common_variable_16x16_font.h \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/build/bn_sprite_items_red_sprite.h \
+ /Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/build/bn_sprite_items_chips.h \
+ /Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/build/bn_sprite_items_chip_margin.h \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/build/bn_sprite_items_cards_diamond.h \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/build/bn_sprite_items_cards_hearts.h \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/build/bn_sprite_items_cards_spades.h \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/build/bn_sprite_items_cards_clubs.h \
+ /Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/build/bn_sprite_items_card_back.h \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/include/cards.h \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_random.h \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_math.h \
@@ -174,10 +177,13 @@ main.o: \
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/../../common/include/common_variable_16x16_sprite_font.h:
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/build/bn_sprite_items_common_variable_16x16_font.h:
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/build/bn_sprite_items_red_sprite.h:
+/Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/build/bn_sprite_items_chips.h:
+/Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/build/bn_sprite_items_chip_margin.h:
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/build/bn_sprite_items_cards_diamond.h:
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/build/bn_sprite_items_cards_hearts.h:
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/build/bn_sprite_items_cards_spades.h:
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/build/bn_sprite_items_cards_clubs.h:
+/Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/build/bn_sprite_items_card_back.h:
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/include/cards.h:
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_random.h:
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_math.h:
