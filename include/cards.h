@@ -34,7 +34,7 @@ struct Card
     Rank rank;
     Suit suit;
     // Constructor:
-    Card(Rank rank, Suit suit) : rank(rank), suit(suit) {}
+    Card(Rank _rank, Suit _suit) : rank(_rank), suit(_suit) {}
 };
 
 class Deck
@@ -89,7 +89,7 @@ struct Hand
     Card card2;
     bool playing = true;
     // Constructor
-    Hand(Card card1, Card card2) : card1(card1), card2(card2) {}
+    Hand(Card _card1, Card _card2) : card1(_card1), card2(_card2) {}
 };
 
 class Dealer
@@ -140,14 +140,14 @@ private:
     bn::vector<Hand, 2> hands;
 };
 
-Table::Table(Deck deck)
+Table::Table(Deck _deck)
 {
-    this->deck = deck;
+    this->deck = _deck;
 }
 
 void Table::dealHands()
 {
-    for (size_t i = 0; i < 1; i++)
+    for (int i = 0; i < 1; i++)
     {
         this->hands.push_back(Hand(this->deck.deal(), this->deck.deal()));
     }

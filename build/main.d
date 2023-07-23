@@ -35,6 +35,7 @@ main.o: \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_bg_palettes.h \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_config_log.h \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_log_backend.h \
+ /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_regular_bg_ptr.h \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_sprite_text_generator.h \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_vector.h \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_vector_fwd.h \
@@ -81,6 +82,13 @@ main.o: \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/build/bn_sprite_items_common_variable_8x16_font.h \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/../../common/include/common_variable_16x16_sprite_font.h \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/build/bn_sprite_items_common_variable_16x16_font.h \
+ /Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/build/bn_regular_bg_items_title_screen.h \
+ /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_regular_bg_item.h \
+ /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_bg_palette_item.h \
+ /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_regular_bg_map_item.h \
+ /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_size.h \
+ /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_regular_bg_map_cell.h \
+ /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_regular_bg_tiles_item.h \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/build/bn_sprite_items_red_sprite.h \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/build/bn_sprite_items_chips.h \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/build/bn_sprite_items_chip_margin.h \
@@ -130,6 +138,7 @@ main.o: \
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_bg_palettes.h:
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_config_log.h:
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_log_backend.h:
+/Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_regular_bg_ptr.h:
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_sprite_text_generator.h:
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_vector.h:
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_vector_fwd.h:
@@ -176,6 +185,13 @@ main.o: \
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/build/bn_sprite_items_common_variable_8x16_font.h:
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/../../common/include/common_variable_16x16_sprite_font.h:
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/build/bn_sprite_items_common_variable_16x16_font.h:
+/Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/build/bn_regular_bg_items_title_screen.h:
+/Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_regular_bg_item.h:
+/Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_bg_palette_item.h:
+/Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_regular_bg_map_item.h:
+/Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_size.h:
+/Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_regular_bg_map_cell.h:
+/Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_regular_bg_tiles_item.h:
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/build/bn_sprite_items_red_sprite.h:
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/build/bn_sprite_items_chips.h:
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/build/bn_sprite_items_chip_margin.h:

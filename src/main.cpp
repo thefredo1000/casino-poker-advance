@@ -9,6 +9,7 @@
 #include "bn_keypad.h"
 #include "bn_display.h"
 #include "bn_bg_palettes.h"
+#include "bn_regular_bg_ptr.h"
 #include "bn_sprite_text_generator.h"
 #include "bn_sprite_actions.h"
 #include "bn_sprite_builder.h"
@@ -20,6 +21,7 @@
 #include "common_variable_8x8_sprite_font.h"
 #include "common_variable_8x16_sprite_font.h"
 #include "common_variable_16x16_sprite_font.h"
+#include "bn_regular_bg_items_title_screen.h"
 #include "bn_sprite_items_red_sprite.h"
 #include "bn_sprite_items_chips.h"
 #include "bn_sprite_items_chip_margin.h"
@@ -41,6 +43,8 @@ namespace
     {
 
         bn::music_items::erotic.play(0.25);
+        bn::regular_bg_ptr green_bg = bn::regular_bg_items::title_screen.create_bg(8, 48);
+
         bn::sprite_text_generator title_text_generator(common::variable_16x16_sprite_font);
         bn::sprite_text_generator subtitle_text_generator(common::variable_8x8_sprite_font);
         // bn::sprite_text_generator text_generator(fixed_32x64_sprite_font);
@@ -49,21 +53,11 @@ namespace
 
         bn::vector<bn::sprite_ptr, 32> text_sprites;
 
-        title_text_generator.generate(0, 35 - text_y_limit, "CASINO HOLD 'EM", text_sprites);
 
-        for (int i = 0; i < 7; i++)
-        {
-            text_sprites[i].set_scale(1, 2);
-        }
-
-        subtitle_text_generator.generate(0, 50 - text_y_limit, "advance", text_sprites);
-
-        subtitle_text_generator.generate(0, text_y_limit, "RODRIGO CASALE 2023", text_sprites);
-
-        bn::sprite_ptr diamond_cards_sprite = bn::sprite_items::cards_diamond.create_sprite(-42, 0);
-        bn::sprite_ptr hearts_cards_sprite = bn::sprite_items::cards_hearts.create_sprite(16, 10);
-        bn::sprite_ptr spades_cards_sprite = bn::sprite_items::cards_spades.create_sprite(-16, 10);
-        bn::sprite_ptr clubs_cards_sprite = bn::sprite_items::cards_clubs.create_sprite(42, 0);
+        bn::sprite_ptr diamond_cards_sprite = bn::sprite_items::cards_diamond.create_sprite(-64, 40);
+        bn::sprite_ptr hearts_cards_sprite = bn::sprite_items::cards_hearts.create_sprite(24, 50);
+        bn::sprite_ptr spades_cards_sprite = bn::sprite_items::cards_spades.create_sprite(-24, 50);
+        bn::sprite_ptr clubs_cards_sprite = bn::sprite_items::cards_clubs.create_sprite(64, 40);
 
         diamond_cards_sprite.set_scale(1.4, 2);
         hearts_cards_sprite.set_scale(1.4, 2);
@@ -81,7 +75,7 @@ namespace
 
         int rotation = 0;
         bool clockwise = true;
-        while (!bn::keypad::start_pressed())
+        while (!bn::keypad::any_pressed())
         {
 
             diamond_cards_sprite.set_rotation_angle(rotation);
@@ -166,32 +160,31 @@ namespace
         return text_index;
     }
 
-    void show_player_hand(Card card, bn::sprite_ptr &hand_sprite, int x, int y)
+    void show_player_hand(Card &card, bn::sprite_ptr &hand_sprite, int x, int y)
     {
 
-            switch (card.suit)
-            {
-            case DIAMONDS:
-                hand_sprite = bn::sprite_items::cards_diamond.create_sprite(x, y);
-                hand_sprite.set_tiles(bn::sprite_items::cards_diamond.tiles_item().create_tiles(card.rank));
-                break;
-            case HEARTS:
-                hand_sprite = bn::sprite_items::cards_hearts.create_sprite(x, y);
-                hand_sprite.set_tiles(bn::sprite_items::cards_hearts.tiles_item().create_tiles(card.rank));
-                break;
-            case SPADES:
-                hand_sprite = bn::sprite_items::cards_spades.create_sprite(x, y);
-                hand_sprite.set_tiles(bn::sprite_items::cards_spades.tiles_item().create_tiles(card.rank));
-                break;
-            case CLUBS:
-                hand_sprite = bn::sprite_items::cards_clubs.create_sprite(x, y);
-                hand_sprite.set_tiles(bn::sprite_items::cards_clubs.tiles_item().create_tiles(card.rank));
-                break;
-            default:
-                hand_sprite = bn::sprite_items::card_back.create_sprite(x, y);
-                break;
-            }
-
+        switch (card.suit)
+        {
+        case DIAMONDS:
+            hand_sprite = bn::sprite_items::cards_diamond.create_sprite(x, y);
+            hand_sprite.set_tiles(bn::sprite_items::cards_diamond.tiles_item().create_tiles(card.rank));
+            break;
+        case HEARTS:
+            hand_sprite = bn::sprite_items::cards_hearts.create_sprite(x, y);
+            hand_sprite.set_tiles(bn::sprite_items::cards_hearts.tiles_item().create_tiles(card.rank));
+            break;
+        case SPADES:
+            hand_sprite = bn::sprite_items::cards_spades.create_sprite(x, y);
+            hand_sprite.set_tiles(bn::sprite_items::cards_spades.tiles_item().create_tiles(card.rank));
+            break;
+        case CLUBS:
+            hand_sprite = bn::sprite_items::cards_clubs.create_sprite(x, y);
+            hand_sprite.set_tiles(bn::sprite_items::cards_clubs.tiles_item().create_tiles(card.rank));
+            break;
+        default:
+            hand_sprite = bn::sprite_items::card_back.create_sprite(x, y);
+            break;
+        }
     }
     void deck_screen(bn::sprite_text_generator &text_generator)
     {
@@ -225,10 +218,8 @@ namespace
                 hand = table.getHand(0);
             }
 
-
             show_player_hand(hand.card1, hand_sprite_1, 20, 20);
             show_player_hand(hand.card2, hand_sprite_2, 40, 20);
-
 
             bn::vector<bn::sprite_ptr, 4> text_sprites;
             bn::string<32> text;
@@ -274,7 +265,6 @@ int main()
 
     bn::sprite_text_generator text_generator(common::variable_8x16_sprite_font);
     bn::bg_palettes::set_transparent_color(bn::color(6, 12, 9));
-
     title_screen();
     bn::core::update();
     bn::bg_palettes::set_transparent_color(bn::color(6, 12, 9));
@@ -287,7 +277,6 @@ int main()
     case 0:
         deck_screen(text_generator);
         break;
-
     default:
         break;
     }
