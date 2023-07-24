@@ -44,6 +44,7 @@ public:
     void shuffle();
     Card deal();
     int getDeckSize();
+    void restart();
 
 private:
     bn::vector<Card, 52> deck;
@@ -81,6 +82,16 @@ Card Deck::deal()
 int Deck::getDeckSize()
 {
     return this->deckSize;
+}
+
+void Deck::restart()
+{
+    this->deckSize = 52;
+    this->deck.clear();
+    for (size_t i = 0; i < 52; i++)
+    {
+        this->deck.push_back(Card(static_cast<Rank>(i % 13), static_cast<Suit>(i / 13)));
+    }
 }
 
 struct Hand
@@ -132,6 +143,8 @@ public:
     void dealRiver();
     bn::vector<Hand, 2> getHands();
     Hand getHand(int index);
+    Hand getPlayerHand();
+    Hand getOpponentHand();
     Dealer getDealer();
 
 private:
@@ -176,6 +189,16 @@ bn::vector<Hand, 2> Table::getHands()
 Hand Table::getHand(int index)
 {
     return this->hands[index];
+}
+
+Hand Table::getPlayerHand()
+{
+    return this->hands[0];
+}
+
+Hand Table::getOpponentHand()
+{
+    return this->hands[1];
 }
 
 Dealer Table::getDealer()
