@@ -178,7 +178,7 @@ namespace
 
     void show_card(Card &card, bn::sprite_ptr &hand_sprite)
     {
-        while(hand_sprite.vertical_scale() > 0.1)
+        while (hand_sprite.vertical_scale() > 0.1)
         {
             hand_sprite.set_vertical_scale(hand_sprite.vertical_scale() - 0.1);
             bn::core::update();
@@ -207,12 +207,11 @@ namespace
             break;
         }
 
-        while(hand_sprite.vertical_scale() <= 1)
+        while (hand_sprite.vertical_scale() <= 1)
         {
             hand_sprite.set_vertical_scale(hand_sprite.vertical_scale() + 0.1);
             bn::core::update();
         }
-
     }
 
     void move_card(bn::sprite_ptr &card_sprite, bn::fixed x_destination, bn::fixed y_destination)
@@ -359,13 +358,11 @@ namespace
                 Dealer dealer = table.get_dealer();
                 move_card(dealer_cards_sprite[3], dealer_cards_x[3], 0);
                 show_card(dealer.get_cards()[3], dealer_cards_sprite[3]);
-                table_state = RIVER;
-            }
 
-            if (bn::keypad::a_pressed() && table_state == RIVER)
-            {
+                table_state = RIVER;
+
                 table.deal_river();
-                Dealer dealer = table.get_dealer();
+                dealer = table.get_dealer();
                 move_card(dealer_cards_sprite[4], dealer_cards_x[4], 0);
                 show_card(dealer.get_cards()[4], dealer_cards_sprite[4]);
                 table_state = SHOWDOWN;
@@ -373,7 +370,6 @@ namespace
 
             if (bn::keypad::a_pressed() && table_state == SHOWDOWN)
             {
-
                 show_card(opponent_hand.card1, opponent_hand_sprite[0]);
                 show_card(opponent_hand.card2, opponent_hand_sprite[1]);
             }
