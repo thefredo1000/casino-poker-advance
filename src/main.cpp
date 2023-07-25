@@ -4,6 +4,7 @@
  */
 
 #include "bn_core.h"
+#include "bn_sram.h"
 #include "bn_music.h"
 #include "bn_string.h"
 #include "bn_keypad.h"
@@ -35,6 +36,15 @@
 
 namespace
 {
+    struct sram_data
+    {
+        bn::array<char, 8> format_tag;
+        int money = 0;
+    };
+}
+
+namespace
+{
     enum TableState
     {
         PREFLOP,
@@ -55,6 +65,44 @@ namespace
     constexpr bn::fixed text_y_limit = (bn::display::height() / 2) - text_y_inc;
     const Position player_hand_position(0, 20);
     bn::fixed dealer_cards_x[5] = {-60, -30, 0, 30, 60};
+
+    int read_sram()
+    {
+        sram_data cart_sram_data;
+        bn::sram::read(cart_sram_data);
+
+        bn::array<char, 8> expected_format_tag = {'m', 'o', 'n', 'e', 'y'};
+
+        if (cart_sram_data.format_tag == expected_format_tag)
+        {
+            return cart_sram_data.money;
+        }
+        else
+        {
+            cart_sram_data.format_tag = expected_format_tag;
+            cart_sram_data.money = 100;
+
+            bn::sram::clear(bn::sram::size());
+            bn::sram::write(cart_sram_data);
+        }
+
+        return cart_sram_data.money;
+    }
+
+    void write_sram(int money)
+    {
+
+        sram_data cart_sram_data;
+
+        bn::array<char, 8> expected_format_tag = {'m', 'o', 'n', 'e', 'y'};
+
+        cart_sram_data.format_tag = expected_format_tag;
+        cart_sram_data.money = money;
+
+        bn::sram::clear(bn::sram::size());
+
+        bn::sram::write(cart_sram_data);
+    }
 
     void title_screen()
     {
@@ -266,11 +314,13 @@ namespace
         // Play music
         bn::music_items::hassans_spaceship.play(0.5);
 
-        bn::vector<bn::sprite_ptr, 4> text_sprites;
+        bn::vector<bn::sprite_ptr, 64> text_sprites;
         bn::string<32> text;
         bn::ostringstream text_stream(text);
         text_stream.append("Press A to play");
         text_generator.generate(-50, -70, text, text_sprites);
+        text_generator.generate(-80, 70, "Money: ", text_sprites);
+        text_generator.generate(-32, 70, bn::to_string<32>(read_sram()), text_sprites);
 
         // First Deck
         Deck deck = Deck();
@@ -306,6 +356,16 @@ namespace
         TableState table_state = PREFLOP;
         while (1)
         {
+
+            if (bn::keypad::b_pressed())
+            {
+                write_sram(200);
+            }
+
+            if (bn::keypad::r_pressed())
+            {
+                write_sram(0);
+            }
 
             if (table_state == PREFLOP)
                 deck.shuffle();

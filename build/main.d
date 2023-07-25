@@ -24,6 +24,9 @@ main.o: \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_fixed.h \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_string_view.h \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_vblank_callback_type.h \
+ /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_sram.h \
+ /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/../hw/include/bn_hw_sram_constants.h \
+ /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_common.h \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_music.h \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_optional.h \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_memory_alias.h \
@@ -31,7 +34,6 @@ main.o: \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_keypad.h \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_display.h \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/../hw/include/bn_hw_display_constants.h \
- /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_common.h \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_bg_palettes.h \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_config_log.h \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_log_backend.h \
@@ -127,6 +129,9 @@ main.o: \
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_fixed.h:
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_string_view.h:
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_vblank_callback_type.h:
+/Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_sram.h:
+/Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/../hw/include/bn_hw_sram_constants.h:
+/Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_common.h:
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_music.h:
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_optional.h:
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_memory_alias.h:
@@ -134,7 +139,6 @@ main.o: \
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_keypad.h:
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_display.h:
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/../hw/include/bn_hw_display_constants.h:
-/Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_common.h:
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_bg_palettes.h:
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_config_log.h:
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_log_backend.h:
