@@ -5,6 +5,9 @@ A Casino Hold 'Em port for the GameBoy Advance. If you need to know the rules of
 
 This game is made because I'm currently (as of July 23 2023) looking for a job and while I'm unemployed I want to do the things I wanted to do when I was in High School.
 
+### Command to build the game
+```make -j10```
+
 ## Thoughts (in Spanish)
 ¿Qué es lo que representa ser un hombre? Es lo que me pregunto todos los días. Tengo que admitirlo, yo si he dudado sobre mi identidad de género, pero solamente es porque tiendo a cuestionar que tan hombre soy. Me he preguntado ¿Si siento esto, será porque me identifico más con las mujeres que con los hombres? ¿Soy mujer? ¿Soy gay? ¿Qué significa ser hombre? Siendo honesto conmigo mismo, a veces me gustaría ser mujer, pero solamente es mi reacción a la falta de conexión que tengo con las ideologías machistas de mi sociedad, de donde vivo y de mis círculos sociales. Con el tiempo me he aceptado más y hoy por hoy, me identifico como hombre cisgenero.
 
