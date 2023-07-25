@@ -30,7 +30,7 @@ Card Deck::deal()
     return dealtCard;
 }
 
-int Deck::getDeckSize()
+int Deck::get_deck_size()
 {
     return this->deckSize;
 }

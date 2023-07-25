@@ -54,6 +54,7 @@ namespace
     constexpr bn::fixed text_y_inc = 14;
     constexpr bn::fixed text_y_limit = (bn::display::height() / 2) - text_y_inc;
     const Position player_hand_position(0, 20);
+    bn::fixed dealer_cards_x[5] = {-60, -30, 0, 30, 60};
 
     void title_screen()
     {
@@ -177,6 +178,11 @@ namespace
 
     void show_card(Card &card, bn::sprite_ptr &hand_sprite)
     {
+        while(hand_sprite.vertical_scale() > 0.1)
+        {
+            hand_sprite.set_vertical_scale(hand_sprite.vertical_scale() - 0.1);
+            bn::core::update();
+        }
 
         switch (card.suit)
         {
@@ -200,34 +206,56 @@ namespace
             hand_sprite = bn::sprite_items::card_back.create_sprite(hand_sprite.x(), hand_sprite.y());
             break;
         }
+
+        while(hand_sprite.vertical_scale() <= 1)
+        {
+            hand_sprite.set_vertical_scale(hand_sprite.vertical_scale() + 0.1);
+            bn::core::update();
+        }
+
     }
 
     void move_card(bn::sprite_ptr &card_sprite, bn::fixed x_destination, bn::fixed y_destination)
     {
+        const int movement_speed = 2; // You can adjust the speed as needed
+
         bn::fixed x = card_sprite.x();
         bn::fixed y = card_sprite.y();
 
-        bool move_x = true;
-        bool move_y = true;
-
-        while (move_x || move_y)
+        while (card_sprite.x() != x_destination || card_sprite.y() != y_destination)
         {
-            if (card_sprite.x() != x_destination && move_x)
+            if (card_sprite.x() != x_destination)
             {
-                x -= 1;
+                if (x < x_destination)
+                {
+                    x += movement_speed;
+                    if (x > x_destination)
+                        x = x_destination; // Clamp to destination if overshooting
+                }
+                else
+                {
+                    x -= movement_speed;
+                    if (x < x_destination)
+                        x = x_destination; // Clamp to destination if overshooting
+                }
             }
-            else
+
+            if (card_sprite.y() != y_destination)
             {
-                move_x = false;
+                if (y < y_destination)
+                {
+                    y += movement_speed;
+                    if (y > y_destination)
+                        y = y_destination; // Clamp to destination if overshooting
+                }
+                else
+                {
+                    y -= movement_speed;
+                    if (y < y_destination)
+                        y = y_destination; // Clamp to destination if overshooting
+                }
             }
-            if (card_sprite.y() != y_destination && move_y)
-            {
-                y += 1;
-            }
-            else
-            {
-                move_y = false;
-            }
+
             card_sprite.set_x(x);
             card_sprite.set_y(y);
             bn::core::update();
@@ -251,10 +279,10 @@ namespace
 
         // First Table
         Table table = Table(deck);
-        table.dealHands();
+        table.deal_hands();
 
-        Hand hand = table.getPlayerHand();
-
+        Hand player_hand = table.get_player_hand();
+        Hand opponent_hand = table.get_opponent_hand();
         // Sprites
         bn::sprite_ptr deck_sprite = bn::sprite_items::card_back.create_sprite(80, -40);
 
@@ -266,6 +294,13 @@ namespace
         opponent_hand_sprite.push_back(bn::sprite_items::card_back.create_sprite(80, -40));
         opponent_hand_sprite.push_back(bn::sprite_items::card_back.create_sprite(80, -40));
 
+        bn::vector<bn::sprite_ptr, 5> dealer_cards_sprite;
+        dealer_cards_sprite.push_back(bn::sprite_items::card_back.create_sprite(80, -40));
+        dealer_cards_sprite.push_back(bn::sprite_items::card_back.create_sprite(80, -40));
+        dealer_cards_sprite.push_back(bn::sprite_items::card_back.create_sprite(80, -40));
+        dealer_cards_sprite.push_back(bn::sprite_items::card_back.create_sprite(80, -40));
+        dealer_cards_sprite.push_back(bn::sprite_items::card_back.create_sprite(80, -40));
+
         bn::sprite_ptr chip_margin = bn::sprite_items::chip_margin.create_sprite(0, 50);
         chip_margin.set_z_order(1);
 
@@ -273,12 +308,18 @@ namespace
         while (1)
         {
 
+            if (table_state == PREFLOP)
+                deck.shuffle();
+
             if (bn::keypad::start_pressed())
             {
                 deck.shuffle();
                 table = Table(deck);
-                table.dealHands();
-                hand = table.getPlayerHand();
+                table.deal_hands();
+                player_hand = table.get_player_hand();
+                opponent_hand = table.get_opponent_hand();
+                show_card(player_hand.card1, player_hand_sprite[0]);
+                show_card(player_hand.card2, player_hand_sprite[1]);
             }
 
             // Animate the deal
@@ -286,18 +327,56 @@ namespace
             {
                 deck.shuffle();
                 table = Table(deck);
-                table.dealHands();
-                hand = table.getPlayerHand();
+                table.deal_hands();
+                player_hand = table.get_player_hand();
+                opponent_hand = table.get_opponent_hand();
 
                 // Deal hands
                 move_card(player_hand_sprite[0], (player_hand_position.x - 10), player_hand_position.y);
-                show_card(hand.card1, player_hand_sprite[0]);
+                show_card(player_hand.card1, player_hand_sprite[0]);
                 move_card(opponent_hand_sprite[0], (player_hand_position.x - 10), -player_hand_position.y);
                 move_card(player_hand_sprite[1], (player_hand_position.x + 10), player_hand_position.y);
-                show_card(hand.card2, player_hand_sprite[1]);
+                show_card(player_hand.card2, player_hand_sprite[1]);
                 move_card(opponent_hand_sprite[1], (player_hand_position.x + 10), -player_hand_position.y);
+                table_state = FLOP;
+            }
+            if (bn::keypad::a_pressed() && table_state == FLOP)
+            {
+                table.deal_flop();
+                Dealer dealer = table.get_dealer();
+
+                for (int i = 0; i < 3; i++)
+                {
+                    move_card(dealer_cards_sprite[i], dealer_cards_x[i], 0);
+                    show_card(dealer.get_cards()[i], dealer_cards_sprite[i]);
+                }
+                table_state = TURN;
             }
 
+            if (bn::keypad::a_pressed() && table_state == TURN)
+            {
+                table.deal_turn();
+                Dealer dealer = table.get_dealer();
+                move_card(dealer_cards_sprite[3], dealer_cards_x[3], 0);
+                show_card(dealer.get_cards()[3], dealer_cards_sprite[3]);
+                table_state = RIVER;
+            }
+
+            if (bn::keypad::a_pressed() && table_state == RIVER)
+            {
+                table.deal_river();
+                Dealer dealer = table.get_dealer();
+                move_card(dealer_cards_sprite[4], dealer_cards_x[4], 0);
+                show_card(dealer.get_cards()[4], dealer_cards_sprite[4]);
+                table_state = SHOWDOWN;
+            }
+
+            if (bn::keypad::a_pressed() && table_state == SHOWDOWN)
+            {
+
+                show_card(opponent_hand.card1, opponent_hand_sprite[0]);
+                show_card(opponent_hand.card2, opponent_hand_sprite[1]);
+            }
             bn::core::update();
         }
     }

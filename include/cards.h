@@ -43,7 +43,7 @@ public:
     Deck();
     void shuffle();
     Card deal();
-    int getDeckSize();
+    int get_deck_size();
     void restart();
 
 private:
@@ -65,7 +65,8 @@ void Deck::shuffle()
     for (int i = 0; i < 52; i++)
     {
         bn::random rng = bn::random();
-        int j = rng.get() % (i + 1);
+        rng.update();
+        int j = rng.get_int(i + 1);
         Card temp = this->deck[i];
         this->deck[i] = this->deck[j];
         this->deck[j] = temp;
@@ -79,7 +80,7 @@ Card Deck::deal()
     return dealtCard;
 }
 
-int Deck::getDeckSize()
+int Deck::get_deck_size()
 {
     return this->deckSize;
 }
@@ -114,15 +115,15 @@ public:
         this->cards.push_back(card2);
         this->cards.push_back(card3);
     }
-    void dealTurn(Card card)
+    void deal_turn(Card card)
     {
         this->cards.push_back(card);
     }
-    void dealRiver(Card card)
+    void deal_river(Card card)
     {
         this->cards.push_back(card);
     }
-    bn::vector<Card, 5> getCards()
+    bn::vector<Card, 5> get_cards()
     {
         return this->cards;
     }
@@ -137,15 +138,15 @@ class Table
 public:
     Table();
     Table(Deck deck);
-    void dealHands();
-    void dealFlop();
-    void dealTurn();
-    void dealRiver();
-    bn::vector<Hand, 2> getHands();
-    Hand getHand(int index);
-    Hand getPlayerHand();
-    Hand getOpponentHand();
-    Dealer getDealer();
+    void deal_hands();
+    void deal_flop();
+    void deal_turn();
+    void deal_river();
+    bn::vector<Hand, 2> get_hands();
+    Hand get_hand(int index);
+    Hand get_player_hand();
+    Hand get_opponent_hand();
+    Dealer get_dealer();
 
 private:
     Deck deck;
@@ -158,50 +159,50 @@ Table::Table(Deck _deck)
     this->deck = _deck;
 }
 
-void Table::dealHands()
+void Table::deal_hands()
 {
-    for (int i = 0; i < 1; i++)
+    for (int i = 0; i < 2; i++)
     {
         this->hands.push_back(Hand(this->deck.deal(), this->deck.deal()));
     }
 }
 
-void Table::dealFlop()
+void Table::deal_flop()
 {
     this->dealer = Dealer(this->deck.deal(), this->deck.deal(), this->deck.deal());
 }
 
-void Table::dealTurn()
+void Table::deal_turn()
 {
-    this->dealer.dealTurn(this->deck.deal());
+    this->dealer.deal_turn(this->deck.deal());
 }
 
-void Table::dealRiver()
+void Table::deal_river()
 {
-    this->dealer.dealRiver(this->deck.deal());
+    this->dealer.deal_river(this->deck.deal());
 }
 
-bn::vector<Hand, 2> Table::getHands()
+bn::vector<Hand, 2> Table::get_hands()
 {
     return this->hands;
 }
 
-Hand Table::getHand(int index)
+Hand Table::get_hand(int index)
 {
     return this->hands[index];
 }
 
-Hand Table::getPlayerHand()
+Hand Table::get_player_hand()
 {
     return this->hands[0];
 }
 
-Hand Table::getOpponentHand()
+Hand Table::get_opponent_hand()
 {
     return this->hands[1];
 }
 
-Dealer Table::getDealer()
+Dealer Table::get_dealer()
 {
     return this->dealer;
 }
