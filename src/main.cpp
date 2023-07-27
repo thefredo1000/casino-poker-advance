@@ -45,7 +45,7 @@ namespace
 
 namespace
 {
-    enum TableState
+    enum class TableState
     {
         PREFLOP,
         FLOP,
@@ -235,19 +235,19 @@ namespace
 
         switch (card.suit)
         {
-        case DIAMONDS:
+        case Suit::DIAMONDS:
             card_sprite = bn::sprite_items::cards_diamond.create_sprite(card_sprite.x(), card_sprite.y());
             card_sprite.set_tiles(bn::sprite_items::cards_diamond.tiles_item().create_tiles(card.rank));
             break;
-        case HEARTS:
+        case Suit::HEARTS:
             card_sprite = bn::sprite_items::cards_hearts.create_sprite(card_sprite.x(), card_sprite.y());
             card_sprite.set_tiles(bn::sprite_items::cards_hearts.tiles_item().create_tiles(card.rank));
             break;
-        case SPADES:
+        case Suit::SPADES:
             card_sprite = bn::sprite_items::cards_spades.create_sprite(card_sprite.x(), card_sprite.y());
             card_sprite.set_tiles(bn::sprite_items::cards_spades.tiles_item().create_tiles(card.rank));
             break;
-        case CLUBS:
+        case Suit::CLUBS:
             card_sprite = bn::sprite_items::cards_clubs.create_sprite(card_sprite.x(), card_sprite.y());
             card_sprite.set_tiles(bn::sprite_items::cards_clubs.tiles_item().create_tiles(card.rank));
             break;
@@ -357,7 +357,7 @@ namespace
         bn::sprite_ptr chip_margin = bn::sprite_items::chip_margin.create_sprite(0, 50);
         chip_margin.set_z_order(1);
 
-        TableState table_state = PREFLOP;
+        TableState table_state = TableState::PREFLOP;
         while (1)
         {
 
@@ -371,7 +371,7 @@ namespace
                 write_sram(0);
             }
 
-            if (table_state == PREFLOP)
+            if (table_state == TableState::PREFLOP)
                 deck.shuffle();
 
             if (bn::keypad::start_pressed())
@@ -386,7 +386,7 @@ namespace
             }
 
             // Animate the deal
-            if (bn::keypad::a_pressed() && table_state == PREFLOP && money)
+            if (bn::keypad::a_pressed() && table_state == TableState::PREFLOP && money)
             {
                 deck.shuffle();
                 table = Table(deck);
@@ -401,9 +401,9 @@ namespace
                 move_card(player_hand_sprite[1], (player_hand_position.x + 10), player_hand_position.y);
                 show_card(player_pocket.card2, player_hand_sprite[1]);
                 move_card(opponent_hand_sprite[1], (player_hand_position.x + 10), -player_hand_position.y);
-                table_state = FLOP;
+                table_state = TableState::FLOP;
             }
-            if (bn::keypad::a_pressed() && table_state == FLOP && money)
+            if (bn::keypad::a_pressed() && table_state == TableState::FLOP && money)
             {
                 table.deal_flop();
                 Dealer dealer = table.get_dealer();
@@ -413,33 +413,31 @@ namespace
                     move_card(dealer_cards_sprite[i], dealer_cards_x[i], 0);
                     show_card(dealer.get_cards()[i], dealer_cards_sprite[i]);
                 }
-                table_state = TURN;
+                table_state = TableState::TURN;
             }
 
-            if (bn::keypad::a_pressed() && table_state == TURN && money)
+            if (bn::keypad::a_pressed() && table_state == TableState::TURN && money)
             {
                 table.deal_turn();
                 Dealer dealer = table.get_dealer();
                 move_card(dealer_cards_sprite[3], dealer_cards_x[3], 0);
                 show_card(dealer.get_cards()[3], dealer_cards_sprite[3]);
 
-                table_state = RIVER;
+                table_state = TableState::RIVER;
 
                 table.deal_river();
                 dealer = table.get_dealer();
                 move_card(dealer_cards_sprite[4], dealer_cards_x[4], 0);
                 show_card(dealer.get_cards()[4], dealer_cards_sprite[4]);
-                table_state = SHOWDOWN;
+                table_state = TableState::SHOWDOWN;
             }
 
-            if (bn::keypad::a_pressed() && table_state == SHOWDOWN && money)
+            if (bn::keypad::a_pressed() && table_state == TableState::SHOWDOWN && money)
             {
                 show_card(opponent_pocket.card1, opponent_hand_sprite[0]);
                 show_card(opponent_pocket.card2, opponent_hand_sprite[1]);
 
-                
-
-                table_state = END;
+                                table_state = TableState::END;
             }
             bn::core::update();
         }
