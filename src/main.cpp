@@ -51,7 +51,8 @@ namespace
         FLOP,
         TURN,
         RIVER,
-        SHOWDOWN
+        SHOWDOWN,
+        END
     };
 
     struct Position
@@ -224,40 +225,40 @@ namespace
         return text_index;
     }
 
-    void show_card(Card &card, bn::sprite_ptr &hand_sprite)
+    void show_card(Card &card, bn::sprite_ptr &card_sprite)
     {
-        while (hand_sprite.vertical_scale() > 0.1)
+        while (card_sprite.vertical_scale() > 0.1)
         {
-            hand_sprite.set_vertical_scale(hand_sprite.vertical_scale() - 0.1);
+            card_sprite.set_vertical_scale(card_sprite.vertical_scale() - 0.1);
             bn::core::update();
         }
 
         switch (card.suit)
         {
         case DIAMONDS:
-            hand_sprite = bn::sprite_items::cards_diamond.create_sprite(hand_sprite.x(), hand_sprite.y());
-            hand_sprite.set_tiles(bn::sprite_items::cards_diamond.tiles_item().create_tiles(card.rank));
+            card_sprite = bn::sprite_items::cards_diamond.create_sprite(card_sprite.x(), card_sprite.y());
+            card_sprite.set_tiles(bn::sprite_items::cards_diamond.tiles_item().create_tiles(card.rank));
             break;
         case HEARTS:
-            hand_sprite = bn::sprite_items::cards_hearts.create_sprite(hand_sprite.x(), hand_sprite.y());
-            hand_sprite.set_tiles(bn::sprite_items::cards_hearts.tiles_item().create_tiles(card.rank));
+            card_sprite = bn::sprite_items::cards_hearts.create_sprite(card_sprite.x(), card_sprite.y());
+            card_sprite.set_tiles(bn::sprite_items::cards_hearts.tiles_item().create_tiles(card.rank));
             break;
         case SPADES:
-            hand_sprite = bn::sprite_items::cards_spades.create_sprite(hand_sprite.x(), hand_sprite.y());
-            hand_sprite.set_tiles(bn::sprite_items::cards_spades.tiles_item().create_tiles(card.rank));
+            card_sprite = bn::sprite_items::cards_spades.create_sprite(card_sprite.x(), card_sprite.y());
+            card_sprite.set_tiles(bn::sprite_items::cards_spades.tiles_item().create_tiles(card.rank));
             break;
         case CLUBS:
-            hand_sprite = bn::sprite_items::cards_clubs.create_sprite(hand_sprite.x(), hand_sprite.y());
-            hand_sprite.set_tiles(bn::sprite_items::cards_clubs.tiles_item().create_tiles(card.rank));
+            card_sprite = bn::sprite_items::cards_clubs.create_sprite(card_sprite.x(), card_sprite.y());
+            card_sprite.set_tiles(bn::sprite_items::cards_clubs.tiles_item().create_tiles(card.rank));
             break;
         default:
-            hand_sprite = bn::sprite_items::card_back.create_sprite(hand_sprite.x(), hand_sprite.y());
+            card_sprite = bn::sprite_items::card_back.create_sprite(card_sprite.x(), card_sprite.y());
             break;
         }
 
-        while (hand_sprite.vertical_scale() <= 1)
+        while (card_sprite.vertical_scale() <= 1)
         {
-            hand_sprite.set_vertical_scale(hand_sprite.vertical_scale() + 0.1);
+            card_sprite.set_vertical_scale(card_sprite.vertical_scale() + 0.1);
             bn::core::update();
         }
     }
@@ -331,10 +332,10 @@ namespace
 
         // First Table
         Table table = Table(deck);
-        table.deal_hands();
+        table.deal_pockets();
 
-        Hand player_hand = table.get_player_hand();
-        Hand opponent_hand = table.get_opponent_hand();
+        Pocket player_pocket = table.get_player_pocket();
+        Pocket opponent_pocket = table.get_opponent_pocket();
         // Sprites
         bn::sprite_ptr deck_sprite = bn::sprite_items::card_back.create_sprite(80, -40);
 
@@ -377,11 +378,11 @@ namespace
             {
                 deck.shuffle();
                 table = Table(deck);
-                table.deal_hands();
-                player_hand = table.get_player_hand();
-                opponent_hand = table.get_opponent_hand();
-                show_card(player_hand.card1, player_hand_sprite[0]);
-                show_card(player_hand.card2, player_hand_sprite[1]);
+                table.deal_pockets();
+                player_pocket = table.get_player_pocket();
+                opponent_pocket = table.get_opponent_pocket();
+                show_card(player_pocket.card1, player_hand_sprite[0]);
+                show_card(player_pocket.card2, player_hand_sprite[1]);
             }
 
             // Animate the deal
@@ -389,16 +390,16 @@ namespace
             {
                 deck.shuffle();
                 table = Table(deck);
-                table.deal_hands();
-                player_hand = table.get_player_hand();
-                opponent_hand = table.get_opponent_hand();
+                table.deal_pockets();
+                player_pocket = table.get_player_pocket();
+                opponent_pocket = table.get_opponent_pocket();
 
                 // Deal hands
                 move_card(player_hand_sprite[0], (player_hand_position.x - 10), player_hand_position.y);
-                show_card(player_hand.card1, player_hand_sprite[0]);
+                show_card(player_pocket.card1, player_hand_sprite[0]);
                 move_card(opponent_hand_sprite[0], (player_hand_position.x - 10), -player_hand_position.y);
                 move_card(player_hand_sprite[1], (player_hand_position.x + 10), player_hand_position.y);
-                show_card(player_hand.card2, player_hand_sprite[1]);
+                show_card(player_pocket.card2, player_hand_sprite[1]);
                 move_card(opponent_hand_sprite[1], (player_hand_position.x + 10), -player_hand_position.y);
                 table_state = FLOP;
             }
@@ -433,8 +434,12 @@ namespace
 
             if (bn::keypad::a_pressed() && table_state == SHOWDOWN && money)
             {
-                show_card(opponent_hand.card1, opponent_hand_sprite[0]);
-                show_card(opponent_hand.card2, opponent_hand_sprite[1]);
+                show_card(opponent_pocket.card1, opponent_hand_sprite[0]);
+                show_card(opponent_pocket.card2, opponent_hand_sprite[1]);
+
+                
+
+                table_state = END;
             }
             bn::core::update();
         }

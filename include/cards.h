@@ -95,14 +95,28 @@ void Deck::restart()
     }
 }
 
-struct Hand
+struct Pocket
 {
     Card card1;
     Card card2;
     bool playing = true;
     // Constructor
-    Hand(Card _card1, Card _card2) : card1(_card1), card2(_card2) {}
+    Pocket(Card _card1, Card _card2) : card1(_card1), card2(_card2) {}
 };
+
+class Hand
+{
+    bn::vector<Card, 7> cards[7];
+    Hand(Pocket pocket, bn::vector<Card, 5> deal);
+};
+
+Hand::Hand(Pocket pocket, bn::vector<Card, 5> deal)
+{
+    this->cards->push_back(pocket.card1);
+    this->cards->push_back(pocket.card2);
+    for (int i = 0; i < 5; i++)
+        this->cards->push_back(deal[i]);
+}
 
 class Dealer
 {
@@ -138,20 +152,20 @@ class Table
 public:
     Table();
     Table(Deck deck);
-    void deal_hands();
+    void deal_pockets();
     void deal_flop();
     void deal_turn();
     void deal_river();
-    bn::vector<Hand, 2> get_hands();
-    Hand get_hand(int index);
-    Hand get_player_hand();
-    Hand get_opponent_hand();
+    bn::vector<Pocket, 2> get_pockets();
+    Pocket get_pocket(int index);
+    Pocket get_player_pocket();
+    Pocket get_opponent_pocket();
     Dealer get_dealer();
 
 private:
     Deck deck;
     Dealer dealer;
-    bn::vector<Hand, 2> hands;
+    bn::vector<Pocket, 2> pockets;
 };
 
 Table::Table(Deck _deck)
@@ -159,11 +173,11 @@ Table::Table(Deck _deck)
     this->deck = _deck;
 }
 
-void Table::deal_hands()
+void Table::deal_pockets()
 {
     for (int i = 0; i < 2; i++)
     {
-        this->hands.push_back(Hand(this->deck.deal(), this->deck.deal()));
+        this->pockets.push_back(Pocket(this->deck.deal(), this->deck.deal()));
     }
 }
 
@@ -182,24 +196,24 @@ void Table::deal_river()
     this->dealer.deal_river(this->deck.deal());
 }
 
-bn::vector<Hand, 2> Table::get_hands()
+bn::vector<Pocket, 2> Table::get_pockets()
 {
-    return this->hands;
+    return this->pockets;
 }
 
-Hand Table::get_hand(int index)
+Pocket Table::get_pocket(int index)
 {
-    return this->hands[index];
+    return this->pockets[index];
 }
 
-Hand Table::get_player_hand()
+Pocket Table::get_player_pocket()
 {
-    return this->hands[0];
+    return this->pockets[0];
 }
 
-Hand Table::get_opponent_hand()
+Pocket Table::get_opponent_pocket()
 {
-    return this->hands[1];
+    return this->pockets[1];
 }
 
 Dealer Table::get_dealer()
