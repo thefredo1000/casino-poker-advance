@@ -437,7 +437,7 @@ namespace
                 show_card(opponent_pocket.card1, opponent_hand_sprite[0]);
                 show_card(opponent_pocket.card2, opponent_hand_sprite[1]);
 
-                                table_state = TableState::END;
+                table_state = TableState::END;
             }
             bn::core::update();
         }

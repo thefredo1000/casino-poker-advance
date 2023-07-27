@@ -58,7 +58,6 @@ private:
     int deckSize;
 };
 
-
 struct Pocket
 {
     Card card1;
