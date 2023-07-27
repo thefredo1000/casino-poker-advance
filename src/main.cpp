@@ -314,13 +314,16 @@ namespace
         // Play music
         bn::music_items::hassans_spaceship.play(0.5);
 
+        // Money
+        int money = read_sram();
+
         bn::vector<bn::sprite_ptr, 64> text_sprites;
         bn::string<32> text;
         bn::ostringstream text_stream(text);
         text_stream.append("Press A to play");
         text_generator.generate(-50, -70, text, text_sprites);
         text_generator.generate(-80, 70, "Money: ", text_sprites);
-        text_generator.generate(-32, 70, bn::to_string<32>(read_sram()), text_sprites);
+        text_generator.generate(-32, 70, bn::to_string<32>(money), text_sprites);
 
         // First Deck
         Deck deck = Deck();
@@ -382,7 +385,7 @@ namespace
             }
 
             // Animate the deal
-            if (bn::keypad::a_pressed() && table_state == PREFLOP)
+            if (bn::keypad::a_pressed() && table_state == PREFLOP && money)
             {
                 deck.shuffle();
                 table = Table(deck);
@@ -399,7 +402,7 @@ namespace
                 move_card(opponent_hand_sprite[1], (player_hand_position.x + 10), -player_hand_position.y);
                 table_state = FLOP;
             }
-            if (bn::keypad::a_pressed() && table_state == FLOP)
+            if (bn::keypad::a_pressed() && table_state == FLOP && money)
             {
                 table.deal_flop();
                 Dealer dealer = table.get_dealer();
@@ -412,7 +415,7 @@ namespace
                 table_state = TURN;
             }
 
-            if (bn::keypad::a_pressed() && table_state == TURN)
+            if (bn::keypad::a_pressed() && table_state == TURN && money)
             {
                 table.deal_turn();
                 Dealer dealer = table.get_dealer();
@@ -428,7 +431,7 @@ namespace
                 table_state = SHOWDOWN;
             }
 
-            if (bn::keypad::a_pressed() && table_state == SHOWDOWN)
+            if (bn::keypad::a_pressed() && table_state == SHOWDOWN && money)
             {
                 show_card(opponent_hand.card1, opponent_hand_sprite[0]);
                 show_card(opponent_hand.card2, opponent_hand_sprite[1]);
