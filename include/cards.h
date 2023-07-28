@@ -78,8 +78,13 @@ struct Pocket
 
 class Hand
 {
-    bn::vector<Card, 7> cards[7];
+public:
     Hand(Pocket pocket, bn::vector<Card, 5> deal);
+    bn::vector<Card, 7> getCards() {
+        return this->cards;
+    }
+private:
+    bn::vector<Card, 7> cards;
 };
 
 class Dealer
@@ -101,7 +106,7 @@ public:
     {
         this->cards.push_back(card);
     }
-    bn::vector<Card, 5> get_cards()
+    bn::vector<Card, 5> get_cards() const
     {
         return this->cards;
     }

@@ -27,7 +27,8 @@ cards.o: \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_rule_of_three_approximation.h \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/include/cards.h \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_vector.h \
- /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_vector_fwd.h
+ /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_vector_fwd.h \
+ /Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/include/evaluate.h
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_random.h:
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_fixed.h:
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_compare.h:
@@ -56,3 +57,4 @@ cards.o: \
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/include/cards.h:
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_vector.h:
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_vector_fwd.h:
+/Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/include/evaluate.h:

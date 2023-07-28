@@ -1,15 +1,17 @@
 #include <bn_random.h>
 #include <bn_math.h>
+#include <array>
 
 #include "cards.h"
+#include "evaluate.h"
 
 
 Hand::Hand(Pocket pocket, bn::vector<Card, 5> deal)
 {
-    this->cards->push_back(pocket.card1);
-    this->cards->push_back(pocket.card2);
+    this->cards.push_back(pocket.card1);
+    this->cards.push_back(pocket.card2);
     for (int i = 0; i < 5; i++)
-        this->cards->push_back(deal[i]);
+        this->cards.push_back(deal[i]);
 }
 
 Deck::Deck()
@@ -109,6 +111,32 @@ Dealer Table::get_dealer()
     return this->dealer;
 }
 
-Result Table::compete(Hand player, Hand opponent) {
-    
+Result Table::compete(Hand player, Hand opponent)
+{
+    bn::vector<Card, 7> player_cards = player.getCards();
+    bn::vector<Card, 7> opponent_cards = opponent.getCards();
+
+    int player_res = evaluate_7cards(player_cards[0], 
+        player_cards[1],
+        player_cards[2],
+        player_cards[3],
+        player_cards[4],
+        player_cards[5],
+        player_cards[6]
+    );
+
+    int opponent_res = evaluate_7cards(opponent_cards[0], 
+        opponent_cards[1],
+        opponent_cards[2],
+        opponent_cards[3],
+        opponent_cards[4],
+        opponent_cards[5],
+        opponent_cards[6]
+    );
+    if (player_res < opponent_res)
+        return Result::LOSE;
+    else if (player_res== opponent_res)
+        return Result::TIE;
+
+    return Result::WIN;
 }

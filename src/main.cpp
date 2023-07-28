@@ -120,13 +120,13 @@ namespace
 
         bn::sprite_ptr diamond_cards_sprite = bn::sprite_items::cards_diamond.create_sprite(-64, 40);
         diamond_cards_sprite.set_tiles(bn::sprite_items::cards_diamond.tiles_item().create_tiles(static_cast<int>(Rank::ACE)));
-        
+
         bn::sprite_ptr hearts_cards_sprite = bn::sprite_items::cards_hearts.create_sprite(24, 50);
         hearts_cards_sprite.set_tiles(bn::sprite_items::cards_diamond.tiles_item().create_tiles(static_cast<int>(Rank::ACE)));
 
         bn::sprite_ptr spades_cards_sprite = bn::sprite_items::cards_spades.create_sprite(-24, 50);
         spades_cards_sprite.set_tiles(bn::sprite_items::cards_diamond.tiles_item().create_tiles(static_cast<int>(Rank::ACE)));
-        
+
         bn::sprite_ptr clubs_cards_sprite = bn::sprite_items::cards_clubs.create_sprite(64, 40);
         clubs_cards_sprite.set_tiles(bn::sprite_items::cards_diamond.tiles_item().create_tiles(static_cast<int>(Rank::ACE)));
 
@@ -443,6 +443,22 @@ namespace
                 show_card(opponent_pocket.card1, opponent_hand_sprite[0]);
                 show_card(opponent_pocket.card2, opponent_hand_sprite[1]);
 
+                Dealer dealer = table.get_dealer();
+                Hand player_hand(player_pocket, dealer.get_cards());
+                Hand opponent_hand(opponent_pocket, dealer.get_cards());
+                Result res = table.compete(player_hand, opponent_hand);
+                switch (res)
+                {
+                case (Result::WIN):
+                    text_generator.generate(80, 70, "u won!", text_sprites);
+                    break;
+                case (Result::LOSE):
+                    text_generator.generate(80, 70, "u LOST", text_sprites);
+                    break;
+                default:
+                    text_generator.generate(80, 70, "TIE", text_sprites);
+                    break;
+                }
                 table_state = TableState::END;
             }
             bn::core::update();
