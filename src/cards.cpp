@@ -108,3 +108,7 @@ Dealer Table::get_dealer()
 {
     return this->dealer;
 }
+
+Result Table::compete(Hand player, Hand opponent) {
+    
+}

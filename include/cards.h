@@ -12,9 +12,9 @@ enum class Suit
     HEARTS = 2,
     SPADES = 3
 };
+
 enum Rank
 {
-    ACE,
     TWO,
     THREE,
     FOUR,
@@ -26,7 +26,8 @@ enum Rank
     TEN,
     JACK,
     QUEEN,
-    KING
+    KING,
+    ACE,
 };
 
 enum class Result
@@ -36,12 +37,20 @@ enum class Result
     TIE
 };
 
-struct Card
+class Card
 {
+public:
+    Card(Rank _rank, Suit _suit) : rank(_rank), suit(_suit){};
+    Rank getRank() const { return this->rank; }
+    Suit getSuit() const { return this->suit; }
+    operator int() const
+    {
+        return static_cast<int>(this->rank) * 4 + static_cast<int>(this->suit);
+    }
+
+private:
     Rank rank;
     Suit suit;
-    // Constructor:
-    Card(Rank _rank, Suit _suit) : rank(_rank), suit(_suit) {}
 };
 
 class Deck
@@ -72,7 +81,6 @@ class Hand
     bn::vector<Card, 7> cards[7];
     Hand(Pocket pocket, bn::vector<Card, 5> deal);
 };
-
 
 class Dealer
 {
@@ -117,6 +125,7 @@ public:
     Pocket get_player_pocket();
     Pocket get_opponent_pocket();
     Dealer get_dealer();
+    Result compete(Hand player, Hand opponent);
 
 private:
     Deck deck;

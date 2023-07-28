@@ -113,16 +113,22 @@ namespace
 
         bn::sprite_text_generator title_text_generator(common::variable_16x16_sprite_font);
         bn::sprite_text_generator subtitle_text_generator(common::variable_8x8_sprite_font);
-        // bn::sprite_text_generator text_generator(fixed_32x64_sprite_font);
         title_text_generator.set_center_alignment();
         subtitle_text_generator.set_center_alignment();
 
         bn::vector<bn::sprite_ptr, 32> text_sprites;
 
         bn::sprite_ptr diamond_cards_sprite = bn::sprite_items::cards_diamond.create_sprite(-64, 40);
+        diamond_cards_sprite.set_tiles(bn::sprite_items::cards_diamond.tiles_item().create_tiles(static_cast<int>(Rank::ACE)));
+        
         bn::sprite_ptr hearts_cards_sprite = bn::sprite_items::cards_hearts.create_sprite(24, 50);
+        hearts_cards_sprite.set_tiles(bn::sprite_items::cards_diamond.tiles_item().create_tiles(static_cast<int>(Rank::ACE)));
+
         bn::sprite_ptr spades_cards_sprite = bn::sprite_items::cards_spades.create_sprite(-24, 50);
+        spades_cards_sprite.set_tiles(bn::sprite_items::cards_diamond.tiles_item().create_tiles(static_cast<int>(Rank::ACE)));
+        
         bn::sprite_ptr clubs_cards_sprite = bn::sprite_items::cards_clubs.create_sprite(64, 40);
+        clubs_cards_sprite.set_tiles(bn::sprite_items::cards_diamond.tiles_item().create_tiles(static_cast<int>(Rank::ACE)));
 
         diamond_cards_sprite.set_scale(1.4, 2);
         hearts_cards_sprite.set_scale(1.4, 2);
@@ -233,23 +239,23 @@ namespace
             bn::core::update();
         }
 
-        switch (card.suit)
+        switch (card.getSuit())
         {
         case Suit::DIAMONDS:
             card_sprite = bn::sprite_items::cards_diamond.create_sprite(card_sprite.x(), card_sprite.y());
-            card_sprite.set_tiles(bn::sprite_items::cards_diamond.tiles_item().create_tiles(card.rank));
+            card_sprite.set_tiles(bn::sprite_items::cards_diamond.tiles_item().create_tiles(card.getRank()));
             break;
         case Suit::HEARTS:
             card_sprite = bn::sprite_items::cards_hearts.create_sprite(card_sprite.x(), card_sprite.y());
-            card_sprite.set_tiles(bn::sprite_items::cards_hearts.tiles_item().create_tiles(card.rank));
+            card_sprite.set_tiles(bn::sprite_items::cards_hearts.tiles_item().create_tiles(card.getRank()));
             break;
         case Suit::SPADES:
             card_sprite = bn::sprite_items::cards_spades.create_sprite(card_sprite.x(), card_sprite.y());
-            card_sprite.set_tiles(bn::sprite_items::cards_spades.tiles_item().create_tiles(card.rank));
+            card_sprite.set_tiles(bn::sprite_items::cards_spades.tiles_item().create_tiles(card.getRank()));
             break;
         case Suit::CLUBS:
             card_sprite = bn::sprite_items::cards_clubs.create_sprite(card_sprite.x(), card_sprite.y());
-            card_sprite.set_tiles(bn::sprite_items::cards_clubs.tiles_item().create_tiles(card.rank));
+            card_sprite.set_tiles(bn::sprite_items::cards_clubs.tiles_item().create_tiles(card.getRank()));
             break;
         default:
             card_sprite = bn::sprite_items::card_back.create_sprite(card_sprite.x(), card_sprite.y());
