@@ -3,6 +3,8 @@
         "__split_buffer": "cpp",
         "string": "cpp",
         "vector": "cpp",
-        "__node_handle": "cpp"
+        "__node_handle": "cpp",
+        "ostream": "cpp",
+        "chrono": "cpp"
     },
 }
