@@ -364,7 +364,7 @@ namespace
         chip_margin.set_z_order(1);
 
         TableState table_state = TableState::PREFLOP;
-        while (1)
+        while (table_state != TableState::END)
         {
 
             if (bn::keypad::b_pressed())
@@ -379,17 +379,6 @@ namespace
 
             if (table_state == TableState::PREFLOP)
                 deck.shuffle();
-
-            if (bn::keypad::start_pressed())
-            {
-                deck.shuffle();
-                table = Table(deck);
-                table.deal_pockets();
-                player_pocket = table.get_player_pocket();
-                opponent_pocket = table.get_opponent_pocket();
-                show_card(player_pocket.card1, player_hand_sprite[0]);
-                show_card(player_pocket.card2, player_hand_sprite[1]);
-            }
 
             // Animate the deal
             if (bn::keypad::a_pressed() && table_state == TableState::PREFLOP && money)
@@ -451,9 +440,13 @@ namespace
                 {
                 case (Result::WIN):
                     text_generator.generate(80, 70, "u won!", text_sprites);
+                    money += 10;
+                    write_sram(money);
                     break;
                 case (Result::LOSE):
                     text_generator.generate(80, 70, "u LOST", text_sprites);
+                    money -= 10;
+                    write_sram(money);
                     break;
                 default:
                     text_generator.generate(80, 70, "TIE", text_sprites);
@@ -461,6 +454,10 @@ namespace
                 }
                 table_state = TableState::END;
             }
+            bn::core::update();
+        }
+        while (!bn::keypad::start_pressed())
+        {
             bn::core::update();
         }
     }
@@ -479,12 +476,16 @@ int main()
     uint32_t option = menu_screen();
     bn::core::update();
 
-    switch (option)
+    // TODO: Fiiiiix
+    while (1)
     {
-    case 0:
-        deck_screen(text_generator);
-        break;
-    default:
-        break;
+        switch (option)
+        {
+        case 0:
+            deck_screen(text_generator);
+            break;
+        default:
+            break;
+        }
     }
 }
