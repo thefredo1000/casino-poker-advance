@@ -33,6 +33,8 @@
 #include "bn_sprite_items_card_back.h"
 
 #include "cards.h"
+#include "scene_type.h"
+#include "menu_screen.h"
 
 namespace
 {
@@ -45,7 +47,7 @@ namespace
 
 namespace
 {
-    enum class TableState
+    enum class table_state
     {
         PREFLOP,
         FLOP,
@@ -186,51 +188,6 @@ namespace
         }
     }
 
-    uint32_t menu_screen()
-    {
-
-        bn::sprite_text_generator title_text_generator(common::variable_16x16_sprite_font);
-        bn::sprite_text_generator subtitle_text_generator(common::variable_8x8_sprite_font);
-        title_text_generator.set_center_alignment();
-        subtitle_text_generator.set_center_alignment();
-
-        bn::vector<bn::sprite_ptr, 32> text_sprites;
-
-        title_text_generator.generate(0, 40 - text_y_limit, "Play", text_sprites);
-        title_text_generator.generate(0, 64 - text_y_limit, "Options", text_sprites);
-        title_text_generator.generate(0, 88 - text_y_limit, "Extras", text_sprites);
-        title_text_generator.generate(0, 112 - text_y_limit, "Credits", text_sprites);
-
-        for (int i = 0; i < text_sprites.size(); i++)
-        {
-            text_sprites[i].set_scale(1, 2);
-        }
-
-        bn::sprite_ptr card_sprite_left = bn::sprite_items::cards_spades.create_sprite(-56, -24);
-        bn::sprite_ptr card_sprite_right = bn::sprite_items::cards_diamond.create_sprite(56, -24);
-
-        int text_index = 0;
-
-        while (!bn::keypad::a_pressed() && !bn::keypad::start_pressed())
-        {
-            card_sprite_left.set_y((text_index - 1) * 24);
-            card_sprite_right.set_y((text_index - 1) * 24);
-            if (bn::keypad::up_pressed())
-            {
-                text_index = text_index - (text_index != 0);
-            }
-            else if (bn::keypad::down_pressed())
-            {
-                text_index = text_index + (text_index != 3);
-            }
-
-            bn::core::update();
-        }
-
-        bn::music::stop();
-        return text_index;
-    }
-
     void show_card(Card &card, bn::sprite_ptr &card_sprite)
     {
         while (card_sprite.vertical_scale() > 0.1)
@@ -316,7 +273,7 @@ namespace
         }
     }
 
-    void deck_screen(bn::sprite_text_generator &text_generator)
+    void match_screen(bn::sprite_text_generator &text_generator)
     {
         // Play music
         bn::music_items::hassans_spaceship.play(0.5);
@@ -342,6 +299,7 @@ namespace
 
         Pocket player_pocket = table.get_player_pocket();
         Pocket opponent_pocket = table.get_opponent_pocket();
+
         // Sprites
         bn::sprite_ptr deck_sprite = bn::sprite_items::card_back.create_sprite(80, -40);
 
@@ -363,8 +321,8 @@ namespace
         bn::sprite_ptr chip_margin = bn::sprite_items::chip_margin.create_sprite(0, 50);
         chip_margin.set_z_order(1);
 
-        TableState table_state = TableState::PREFLOP;
-        while (table_state != TableState::END)
+        table_state curr_state = table_state::PREFLOP;
+        while (curr_state != table_state::END)
         {
 
             if (bn::keypad::b_pressed())
@@ -377,11 +335,11 @@ namespace
                 write_sram(0);
             }
 
-            if (table_state == TableState::PREFLOP)
+            if (curr_state == table_state::PREFLOP)
                 deck.shuffle();
 
             // Animate the deal
-            if (bn::keypad::a_pressed() && table_state == TableState::PREFLOP && money)
+            if (bn::keypad::a_pressed() && curr_state == table_state::PREFLOP && money)
             {
                 deck.shuffle();
                 table = Table(deck);
@@ -392,13 +350,16 @@ namespace
                 // Deal hands
                 move_card(player_hand_sprite[0], (player_hand_position.x - 10), player_hand_position.y);
                 show_card(player_pocket.card1, player_hand_sprite[0]);
+
                 move_card(opponent_hand_sprite[0], (player_hand_position.x - 10), -player_hand_position.y);
+
                 move_card(player_hand_sprite[1], (player_hand_position.x + 10), player_hand_position.y);
                 show_card(player_pocket.card2, player_hand_sprite[1]);
+
                 move_card(opponent_hand_sprite[1], (player_hand_position.x + 10), -player_hand_position.y);
-                table_state = TableState::FLOP;
+                curr_state = table_state::FLOP;
             }
-            if (bn::keypad::a_pressed() && table_state == TableState::FLOP && money)
+            if (bn::keypad::a_pressed() && curr_state == table_state::FLOP && money)
             {
                 table.deal_flop();
                 Dealer dealer = table.get_dealer();
@@ -408,26 +369,26 @@ namespace
                     move_card(dealer_cards_sprite[i], dealer_cards_x[i], 0);
                     show_card(dealer.get_cards()[i], dealer_cards_sprite[i]);
                 }
-                table_state = TableState::TURN;
+                curr_state = table_state::TURN;
             }
 
-            if (bn::keypad::a_pressed() && table_state == TableState::TURN && money)
+            if (bn::keypad::a_pressed() && curr_state == table_state::TURN && money)
             {
                 table.deal_turn();
                 Dealer dealer = table.get_dealer();
                 move_card(dealer_cards_sprite[3], dealer_cards_x[3], 0);
                 show_card(dealer.get_cards()[3], dealer_cards_sprite[3]);
 
-                table_state = TableState::RIVER;
+                curr_state = table_state::RIVER;
 
                 table.deal_river();
                 dealer = table.get_dealer();
                 move_card(dealer_cards_sprite[4], dealer_cards_x[4], 0);
                 show_card(dealer.get_cards()[4], dealer_cards_sprite[4]);
-                table_state = TableState::SHOWDOWN;
+                curr_state = table_state::SHOWDOWN;
             }
 
-            if (bn::keypad::a_pressed() && table_state == TableState::SHOWDOWN && money)
+            if (bn::keypad::a_pressed() && curr_state == table_state::SHOWDOWN && money)
             {
                 show_card(opponent_pocket.card1, opponent_hand_sprite[0]);
                 show_card(opponent_pocket.card2, opponent_hand_sprite[1]);
@@ -452,12 +413,8 @@ namespace
                     text_generator.generate(80, 70, "TIE", text_sprites);
                     break;
                 }
-                table_state = TableState::END;
+                curr_state = table_state::END;
             }
-            bn::core::update();
-        }
-        while (!bn::keypad::start_pressed())
-        {
             bn::core::update();
         }
     }
@@ -468,21 +425,21 @@ int main()
     bn::core::init();
 
     bn::sprite_text_generator text_generator(common::variable_8x16_sprite_font);
-    bn::bg_palettes::set_transparent_color(bn::color(6, 12, 9));
-    title_screen();
-    bn::core::update();
-    bn::bg_palettes::set_transparent_color(bn::color(6, 12, 9));
 
-    uint32_t option = menu_screen();
-    bn::core::update();
-
-    // TODO: Fiiiiix
+    scene_type scene = scene_type::TITLE;
     while (1)
     {
-        switch (option)
+        switch (scene)
         {
-        case 0:
-            deck_screen(text_generator);
+        case scene_type::TITLE:
+            title_screen();
+            scene = scene_type::MENU;
+            break;
+        case scene_type::MENU:
+            scene = menu_screen();
+            break;
+        case scene_type::GAME:
+            match_screen(text_generator);
             break;
         default:
             break;
