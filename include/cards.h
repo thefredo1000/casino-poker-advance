@@ -41,8 +41,8 @@ class Card
 {
 public:
     Card(Rank _rank, Suit _suit) : rank(_rank), suit(_suit){};
-    Rank getRank() const { return this->rank; }
-    Suit getSuit() const { return this->suit; }
+    Rank get_rank() const { return this->rank; }
+    Suit get_suit() const { return this->suit; }
     operator int() const
     {
         return static_cast<int>(this->rank) * 4 + static_cast<int>(this->suit);

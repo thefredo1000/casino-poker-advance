@@ -1,6 +1,7 @@
 #include "bn_sprite_text_generator.h"
 #include "bn_display.h"
 #include "scene_type.h"
+#include <bn_fixed.h>
 
 #ifndef MENU_SCREEN_H
 #define MENU_SCREEN_H

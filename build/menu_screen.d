@@ -44,6 +44,7 @@ menu_screen.o: \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/../hw/include/bn_hw_display_constants.h \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_common.h \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/include/scene_type.h \
+ /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_fixed.h \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_bg_palettes.h \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_config_log.h \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_log_backend.h \
@@ -119,6 +120,7 @@ menu_screen.o: \
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/../hw/include/bn_hw_display_constants.h:
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_common.h:
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/include/scene_type.h:
+/Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_fixed.h:
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_bg_palettes.h:
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_config_log.h:
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_log_backend.h:

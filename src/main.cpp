@@ -196,23 +196,23 @@ namespace
             bn::core::update();
         }
 
-        switch (card.getSuit())
+        switch (card.get_suit())
         {
         case Suit::DIAMONDS:
             card_sprite = bn::sprite_items::cards_diamond.create_sprite(card_sprite.x(), card_sprite.y());
-            card_sprite.set_tiles(bn::sprite_items::cards_diamond.tiles_item().create_tiles(card.getRank()));
+            card_sprite.set_tiles(bn::sprite_items::cards_diamond.tiles_item().create_tiles(card.get_rank()));
             break;
         case Suit::HEARTS:
             card_sprite = bn::sprite_items::cards_hearts.create_sprite(card_sprite.x(), card_sprite.y());
-            card_sprite.set_tiles(bn::sprite_items::cards_hearts.tiles_item().create_tiles(card.getRank()));
+            card_sprite.set_tiles(bn::sprite_items::cards_hearts.tiles_item().create_tiles(card.get_rank()));
             break;
         case Suit::SPADES:
             card_sprite = bn::sprite_items::cards_spades.create_sprite(card_sprite.x(), card_sprite.y());
-            card_sprite.set_tiles(bn::sprite_items::cards_spades.tiles_item().create_tiles(card.getRank()));
+            card_sprite.set_tiles(bn::sprite_items::cards_spades.tiles_item().create_tiles(card.get_rank()));
             break;
         case Suit::CLUBS:
             card_sprite = bn::sprite_items::cards_clubs.create_sprite(card_sprite.x(), card_sprite.y());
-            card_sprite.set_tiles(bn::sprite_items::cards_clubs.tiles_item().create_tiles(card.getRank()));
+            card_sprite.set_tiles(bn::sprite_items::cards_clubs.tiles_item().create_tiles(card.get_rank()));
             break;
         default:
             card_sprite = bn::sprite_items::card_back.create_sprite(card_sprite.x(), card_sprite.y());
@@ -286,8 +286,8 @@ namespace
         bn::ostringstream text_stream(text);
         text_stream.append("Press A to play");
         text_generator.generate(-50, -70, text, text_sprites);
-        text_generator.generate(-80, 70, "Money: ", text_sprites);
-        text_generator.generate(-32, 70, bn::to_string<32>(money), text_sprites);
+        text_generator.generate(-114, 70, "Money: ", text_sprites);
+        text_generator.generate(-72, 70, bn::to_string<32>(money), text_sprites);
 
         // First Deck
         Deck deck = Deck();
@@ -318,11 +318,31 @@ namespace
         dealer_cards_sprite.push_back(bn::sprite_items::card_back.create_sprite(80, -40));
         dealer_cards_sprite.push_back(bn::sprite_items::card_back.create_sprite(80, -40));
 
-        bn::sprite_ptr chip_margin = bn::sprite_items::chip_margin.create_sprite(0, 50);
-        chip_margin.set_z_order(1);
+        bn::sprite_ptr ante_margin_sprite = bn::sprite_items::chip_margin.create_sprite(-18, 50);
+        ante_margin_sprite.set_z_order(1);
+        text_generator.generate(-32, 70, "ante", text_sprites);
+
+        bn::sprite_ptr call_margin_sprite = bn::sprite_items::chip_margin.create_sprite(18, 50);
+        call_margin_sprite.set_z_order(1);
+        text_generator.generate(8, 70, "call", text_sprites);
+
+        bn::sprite_ptr ante_chip_sprite = bn::sprite_items::chips.create_sprite(-18, 47);
+        ante_chip_sprite.set_visible(false);
+
+        bn::sprite_ptr call_chip_sprite = bn::sprite_items::chips.create_sprite(18, 47);
+        call_chip_sprite.set_visible(false);
+
+        bn::sprite_ptr bet_chip_sprite = bn::sprite_items::chips.create_sprite(-40, 47);
+        int bet_chip_index = 0;
+
+        int bet_amount = 1;
 
         table_state curr_state = table_state::PREFLOP;
-        while (curr_state != table_state::END)
+
+        for (int i = 0; i < 10; i++)
+            bn::core::update();
+
+        while (1)
         {
 
             if (bn::keypad::b_pressed())
@@ -338,10 +358,25 @@ namespace
             if (curr_state == table_state::PREFLOP)
                 deck.shuffle();
 
+            if (bn::keypad::up_pressed() && bet_amount < 32 && (bet_amount * 4) < money && (curr_state == table_state::PREFLOP))
+            {
+                bet_amount *= 2;
+                bet_chip_index++;
+                bet_chip_sprite.set_tiles(bn::sprite_items::chips.tiles_item().create_tiles(bet_chip_index));
+            }
+            else if (bn::keypad::down_pressed() && bet_amount > 1 && curr_state == table_state::PREFLOP)
+            {
+                bet_amount /= 2;
+                bet_chip_index--;
+                bet_chip_sprite.set_tiles(bn::sprite_items::chips.tiles_item().create_tiles(bet_chip_index));
+            }
+
             // Animate the deal
             if (bn::keypad::a_pressed() && curr_state == table_state::PREFLOP && money)
             {
-                deck.shuffle();
+                money -= bet_amount;
+                ante_chip_sprite.set_tiles(bn::sprite_items::chips.tiles_item().create_tiles(bet_chip_index));
+                ante_chip_sprite.set_visible(true);
                 table = Table(deck);
                 table.deal_pockets();
                 player_pocket = table.get_player_pocket();
@@ -374,6 +409,9 @@ namespace
 
             if (bn::keypad::a_pressed() && curr_state == table_state::TURN && money)
             {
+                money -= bet_amount;
+                call_chip_sprite.set_tiles(bn::sprite_items::chips.tiles_item().create_tiles(bet_chip_index));
+                call_chip_sprite.set_visible(true);
                 table.deal_turn();
                 Dealer dealer = table.get_dealer();
                 move_card(dealer_cards_sprite[3], dealer_cards_x[3], 0);
@@ -388,7 +426,7 @@ namespace
                 curr_state = table_state::SHOWDOWN;
             }
 
-            if (bn::keypad::a_pressed() && curr_state == table_state::SHOWDOWN && money)
+            if (bn::keypad::a_pressed() && curr_state == table_state::SHOWDOWN)
             {
                 show_card(opponent_pocket.card1, opponent_hand_sprite[0]);
                 show_card(opponent_pocket.card2, opponent_hand_sprite[1]);
@@ -401,19 +439,23 @@ namespace
                 {
                 case (Result::WIN):
                     text_generator.generate(80, 70, "u won!", text_sprites);
-                    money += 10;
+                    money += bet_amount * 4;
                     write_sram(money);
                     break;
                 case (Result::LOSE):
                     text_generator.generate(80, 70, "u LOST", text_sprites);
-                    money -= 10;
                     write_sram(money);
                     break;
                 default:
                     text_generator.generate(80, 70, "TIE", text_sprites);
                     break;
                 }
+
                 curr_state = table_state::END;
+            }
+            if (bn::keypad::a_pressed() && curr_state == table_state::END)
+            {
+                break;
             }
             bn::core::update();
         }
