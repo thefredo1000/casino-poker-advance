@@ -43,6 +43,27 @@ public:
     Card(Rank _rank, Suit _suit) : rank(_rank), suit(_suit){};
     Rank get_rank() const { return this->rank; }
     Suit get_suit() const { return this->suit; }
+    bn::string<8> to_string()
+    {
+        bn::string<8> str;
+        switch (this->suit)
+        {
+        case Suit::CLUBS:
+            str = "C-";
+            break;
+        case Suit::DIAMONDS:
+            str = "D-";
+            break;
+        case Suit::HEARTS:
+            str = "H-";
+            break;
+        default:
+            str = "S-";
+            break;
+        }
+        str += bn::to_string<8>(static_cast<int>(this->rank) + 2);
+        return str;
+    }
     operator int() const
     {
         return static_cast<int>(this->rank) * 4 + static_cast<int>(this->suit);
@@ -61,6 +82,11 @@ public:
     Card deal();
     int get_deck_size();
     void restart();
+    bn::vector<Card, 52> get_deck() const
+    {
+        return this->deck;
+    }
+    void log_deck();
 
 private:
     bn::vector<Card, 52> deck;
@@ -80,9 +106,11 @@ class Hand
 {
 public:
     Hand(Pocket pocket, bn::vector<Card, 5> deal);
-    bn::vector<Card, 7> getCards() {
+    bn::vector<Card, 7> getCards()
+    {
         return this->cards;
     }
+
 private:
     bn::vector<Card, 7> cards;
 };

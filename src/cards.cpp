@@ -1,5 +1,7 @@
 #include <bn_random.h>
 #include <bn_math.h>
+#include <bn_string.h>
+#include <bn_log.h>
 #include <array>
 
 #include "cards.h"
@@ -54,6 +56,15 @@ void Deck::restart()
     for (size_t i = 0; i < 52; i++)
     {
         this->deck.push_back(Card(static_cast<Rank>(i % 13), static_cast<Suit>(i / 13)));
+    }
+}
+
+void Deck::log_deck()
+{
+    BN_LOG("--------------------");
+    for (int i = 0; i < 52; i++)
+    {
+        BN_LOG(this->deck[i].to_string());
     }
 }
 

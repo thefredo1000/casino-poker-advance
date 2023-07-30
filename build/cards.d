@@ -25,6 +25,11 @@ cards.o: \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_sin_lut.h \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_reciprocal_lut.h \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_rule_of_three_approximation.h \
+ /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_string.h \
+ /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_string_view.h \
+ /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_log.h \
+ /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_config_log.h \
+ /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_log_backend.h \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/include/cards.h \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_vector.h \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_vector_fwd.h \
@@ -54,6 +59,11 @@ cards.o: \
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_sin_lut.h:
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_reciprocal_lut.h:
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_rule_of_three_approximation.h:
+/Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_string.h:
+/Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_string_view.h:
+/Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_log.h:
+/Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_config_log.h:
+/Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_log_backend.h:
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/include/cards.h:
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_vector.h:
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_vector_fwd.h:

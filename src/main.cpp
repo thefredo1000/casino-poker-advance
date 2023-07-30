@@ -2,7 +2,6 @@
  * Copyright (c) 2020-2023 Gustavo Valiente gustavo.valiente@protonmail.com
  * zlib License, see LICENSE file.
  */
-
 #include "bn_core.h"
 #include "bn_sram.h"
 #include "bn_music.h"
@@ -35,6 +34,7 @@
 #include "cards.h"
 #include "scene_type.h"
 #include "menu_screen.h"
+
 
 namespace
 {
@@ -356,8 +356,10 @@ namespace
             }
 
             if (curr_state == table_state::PREFLOP)
+            {
                 deck.shuffle();
-
+                deck.log_deck();
+            }
             if (bn::keypad::up_pressed() && bet_amount < 32 && (bet_amount * 4) < money && (curr_state == table_state::PREFLOP))
             {
                 bet_amount *= 2;
