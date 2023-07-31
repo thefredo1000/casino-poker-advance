@@ -6,9 +6,13 @@
 #ifndef MENU_SCREEN_H
 #define MENU_SCREEN_H
 
-constexpr bn::fixed text_y_inc = 14;
-constexpr bn::fixed text_y_limit = (bn::display::height() / 2) - text_y_inc;
+namespace Game
+{
 
-scene_type menu_screen();
+    constexpr bn::fixed text_y_inc = 14;
+    constexpr bn::fixed text_y_limit = (bn::display::height() / 2) - text_y_inc;
 
+    Game::SceneType menu_screen();
+
+}
 #endif // MENU_SCREEN_H
