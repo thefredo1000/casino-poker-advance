@@ -121,7 +121,7 @@ Dealer Table::get_dealer()
     return this->dealer;
 }
 
-player_result Table::compete(Hand player, Hand opponent)
+result Table::compete(Hand player, Hand opponent)
 {
     bn::vector<Card, 7> player_cards = player.getCards();
     bn::vector<Card, 7> opponent_cards = opponent.getCards();
@@ -141,10 +141,13 @@ player_result Table::compete(Hand player, Hand opponent)
                                        opponent_cards[4],
                                        opponent_cards[5],
                                        opponent_cards[6]);
+    result res;
     if (player_res > opponent_res)
-        return player_result::LOSE;
+        res.player_res = player_result::LOSE;
     else if (player_res == opponent_res)
-        return player_result::TIE;
+        res.player_res = player_result::TIE;
+    else
+        res.player_res = player_result::WIN;
 
-    return player_result::WIN;
+    return res;
 }

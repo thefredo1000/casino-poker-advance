@@ -35,7 +35,6 @@
 #include "scene_type.h"
 #include "menu_screen.h"
 
-
 namespace
 {
     struct sram_data
@@ -121,16 +120,16 @@ namespace
         bn::vector<bn::sprite_ptr, 32> text_sprites;
 
         bn::sprite_ptr diamond_cards_sprite = bn::sprite_items::cards_diamond.create_sprite(-64, 40);
-        diamond_cards_sprite.set_tiles(bn::sprite_items::cards_diamond.tiles_item().create_tiles(static_cast<int>(Rank::ACE)));
+        diamond_cards_sprite.set_tiles(bn::sprite_items::cards_diamond.tiles_item().create_tiles(static_cast<int>(rank::ACE)));
 
         bn::sprite_ptr hearts_cards_sprite = bn::sprite_items::cards_hearts.create_sprite(24, 50);
-        hearts_cards_sprite.set_tiles(bn::sprite_items::cards_diamond.tiles_item().create_tiles(static_cast<int>(Rank::ACE)));
+        hearts_cards_sprite.set_tiles(bn::sprite_items::cards_diamond.tiles_item().create_tiles(static_cast<int>(rank::ACE)));
 
         bn::sprite_ptr spades_cards_sprite = bn::sprite_items::cards_spades.create_sprite(-24, 50);
-        spades_cards_sprite.set_tiles(bn::sprite_items::cards_diamond.tiles_item().create_tiles(static_cast<int>(Rank::ACE)));
+        spades_cards_sprite.set_tiles(bn::sprite_items::cards_diamond.tiles_item().create_tiles(static_cast<int>(rank::ACE)));
 
         bn::sprite_ptr clubs_cards_sprite = bn::sprite_items::cards_clubs.create_sprite(64, 40);
-        clubs_cards_sprite.set_tiles(bn::sprite_items::cards_diamond.tiles_item().create_tiles(static_cast<int>(Rank::ACE)));
+        clubs_cards_sprite.set_tiles(bn::sprite_items::cards_diamond.tiles_item().create_tiles(static_cast<int>(rank::ACE)));
 
         diamond_cards_sprite.set_scale(1.4, 2);
         hearts_cards_sprite.set_scale(1.4, 2);
@@ -198,19 +197,19 @@ namespace
 
         switch (card.get_suit())
         {
-        case Suit::DIAMONDS:
+        case suit::DIAMONDS:
             card_sprite = bn::sprite_items::cards_diamond.create_sprite(card_sprite.x(), card_sprite.y());
             card_sprite.set_tiles(bn::sprite_items::cards_diamond.tiles_item().create_tiles(card.get_rank()));
             break;
-        case Suit::HEARTS:
+        case suit::HEARTS:
             card_sprite = bn::sprite_items::cards_hearts.create_sprite(card_sprite.x(), card_sprite.y());
             card_sprite.set_tiles(bn::sprite_items::cards_hearts.tiles_item().create_tiles(card.get_rank()));
             break;
-        case Suit::SPADES:
+        case suit::SPADES:
             card_sprite = bn::sprite_items::cards_spades.create_sprite(card_sprite.x(), card_sprite.y());
             card_sprite.set_tiles(bn::sprite_items::cards_spades.tiles_item().create_tiles(card.get_rank()));
             break;
-        case Suit::CLUBS:
+        case suit::CLUBS:
             card_sprite = bn::sprite_items::cards_clubs.create_sprite(card_sprite.x(), card_sprite.y());
             card_sprite.set_tiles(bn::sprite_items::cards_clubs.tiles_item().create_tiles(card.get_rank()));
             break;
@@ -436,8 +435,8 @@ namespace
                 Dealer dealer = table.get_dealer();
                 Hand player_hand(player_pocket, dealer.get_cards());
                 Hand opponent_hand(opponent_pocket, dealer.get_cards());
-                player_result res = table.compete(player_hand, opponent_hand);
-                switch (res)
+                result res = table.compete(player_hand, opponent_hand);
+                switch (res.player_res)
                 {
                 case (player_result::WIN):
                     text_generator.generate(80, 70, "u won!", text_sprites);

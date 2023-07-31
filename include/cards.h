@@ -38,7 +38,8 @@ enum class player_result
     TIE
 };
 
-enum class hand_rank {
+enum class hand_rank
+{
     HIGH_CARD,
     PAIR,
     TWO_PAIR,
@@ -51,7 +52,8 @@ enum class hand_rank {
     ROYAL_FLUSH
 };
 
-struct result {
+struct result
+{
     player_result player_res;
     hand_rank player_hand_rank;
     hand_rank opponent_hand_rank;
@@ -178,7 +180,7 @@ public:
     Pocket get_player_pocket();
     Pocket get_opponent_pocket();
     Dealer get_dealer();
-    player_result compete(Hand player, Hand opponent);
+    result compete(Hand player, Hand opponent);
 
 private:
     Deck deck;
