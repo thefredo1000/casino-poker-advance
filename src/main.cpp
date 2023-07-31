@@ -31,10 +31,14 @@
 #include "bn_sprite_items_cards_clubs.h"
 #include "bn_sprite_items_card_back.h"
 
-#include "cards.h"
+#include "poker_deck.h"
+#include "poker_pocket.h"
+#include "poker_dealer.h"
+#include "poker_hand.h"
+#include "poker_table.h"
+
 #include "scene_type.h"
 #include "menu_screen.h"
-
 
 namespace
 {
@@ -47,15 +51,6 @@ namespace
 
 namespace
 {
-    enum class table_state
-    {
-        PREFLOP,
-        FLOP,
-        TURN,
-        RIVER,
-        SHOWDOWN,
-        END
-    };
 
     struct Position
     {
@@ -121,16 +116,16 @@ namespace
         bn::vector<bn::sprite_ptr, 32> text_sprites;
 
         bn::sprite_ptr diamond_cards_sprite = bn::sprite_items::cards_diamond.create_sprite(-64, 40);
-        diamond_cards_sprite.set_tiles(bn::sprite_items::cards_diamond.tiles_item().create_tiles(static_cast<int>(Rank::ACE)));
+        diamond_cards_sprite.set_tiles(bn::sprite_items::cards_diamond.tiles_item().create_tiles(static_cast<int>(Poker::Rank::ACE)));
 
         bn::sprite_ptr hearts_cards_sprite = bn::sprite_items::cards_hearts.create_sprite(24, 50);
-        hearts_cards_sprite.set_tiles(bn::sprite_items::cards_diamond.tiles_item().create_tiles(static_cast<int>(Rank::ACE)));
+        hearts_cards_sprite.set_tiles(bn::sprite_items::cards_diamond.tiles_item().create_tiles(static_cast<int>(Poker::Rank::ACE)));
 
         bn::sprite_ptr spades_cards_sprite = bn::sprite_items::cards_spades.create_sprite(-24, 50);
-        spades_cards_sprite.set_tiles(bn::sprite_items::cards_diamond.tiles_item().create_tiles(static_cast<int>(Rank::ACE)));
+        spades_cards_sprite.set_tiles(bn::sprite_items::cards_diamond.tiles_item().create_tiles(static_cast<int>(Poker::Rank::ACE)));
 
         bn::sprite_ptr clubs_cards_sprite = bn::sprite_items::cards_clubs.create_sprite(64, 40);
-        clubs_cards_sprite.set_tiles(bn::sprite_items::cards_diamond.tiles_item().create_tiles(static_cast<int>(Rank::ACE)));
+        clubs_cards_sprite.set_tiles(bn::sprite_items::cards_diamond.tiles_item().create_tiles(static_cast<int>(Poker::Rank::ACE)));
 
         diamond_cards_sprite.set_scale(1.4, 2);
         hearts_cards_sprite.set_scale(1.4, 2);
@@ -188,7 +183,7 @@ namespace
         }
     }
 
-    void show_card(Card &card, bn::sprite_ptr &card_sprite)
+    void show_card(Poker::Card &card, bn::sprite_ptr &card_sprite)
     {
         while (card_sprite.vertical_scale() > 0.1)
         {
@@ -198,21 +193,21 @@ namespace
 
         switch (card.get_suit())
         {
-        case Suit::DIAMONDS:
+        case Poker::Suit::DIAMONDS:
             card_sprite = bn::sprite_items::cards_diamond.create_sprite(card_sprite.x(), card_sprite.y());
-            card_sprite.set_tiles(bn::sprite_items::cards_diamond.tiles_item().create_tiles(card.get_rank()));
+            card_sprite.set_tiles(bn::sprite_items::cards_diamond.tiles_item().create_tiles(static_cast<int>(card.get_rank())));
             break;
-        case Suit::HEARTS:
+        case Poker::Suit::HEARTS:
             card_sprite = bn::sprite_items::cards_hearts.create_sprite(card_sprite.x(), card_sprite.y());
-            card_sprite.set_tiles(bn::sprite_items::cards_hearts.tiles_item().create_tiles(card.get_rank()));
+            card_sprite.set_tiles(bn::sprite_items::cards_hearts.tiles_item().create_tiles(static_cast<int>(card.get_rank())));
             break;
-        case Suit::SPADES:
+        case Poker::Suit::SPADES:
             card_sprite = bn::sprite_items::cards_spades.create_sprite(card_sprite.x(), card_sprite.y());
-            card_sprite.set_tiles(bn::sprite_items::cards_spades.tiles_item().create_tiles(card.get_rank()));
+            card_sprite.set_tiles(bn::sprite_items::cards_spades.tiles_item().create_tiles(static_cast<int>(card.get_rank())));
             break;
-        case Suit::CLUBS:
+        case Poker::Suit::CLUBS:
             card_sprite = bn::sprite_items::cards_clubs.create_sprite(card_sprite.x(), card_sprite.y());
-            card_sprite.set_tiles(bn::sprite_items::cards_clubs.tiles_item().create_tiles(card.get_rank()));
+            card_sprite.set_tiles(bn::sprite_items::cards_clubs.tiles_item().create_tiles(static_cast<int>(card.get_rank())));
             break;
         default:
             card_sprite = bn::sprite_items::card_back.create_sprite(card_sprite.x(), card_sprite.y());
@@ -290,15 +285,15 @@ namespace
         text_generator.generate(-72, 70, bn::to_string<32>(money), text_sprites);
 
         // First Deck
-        Deck deck = Deck();
+        Poker::Deck deck = Poker::Deck();
         deck.shuffle();
 
         // First Table
-        Table table = Table(deck);
+        Poker::Table table = Poker::Table(deck);
         table.deal_pockets();
 
-        Pocket player_pocket = table.get_player_pocket();
-        Pocket opponent_pocket = table.get_opponent_pocket();
+        Poker::Pocket player_pocket = table.get_player_pocket();
+        Poker::Pocket opponent_pocket = table.get_opponent_pocket();
 
         // Sprites
         bn::sprite_ptr deck_sprite = bn::sprite_items::card_back.create_sprite(80, -40);
@@ -337,8 +332,6 @@ namespace
 
         int bet_amount = 1;
 
-        table_state curr_state = table_state::PREFLOP;
-
         for (int i = 0; i < 10; i++)
             bn::core::update();
 
@@ -355,18 +348,18 @@ namespace
                 write_sram(0);
             }
 
-            if (curr_state == table_state::PREFLOP)
+            if (table.get_state() == Poker::Table::State::PREFLOP)
             {
                 deck.shuffle();
                 deck.log_deck();
             }
-            if (bn::keypad::up_pressed() && bet_amount < 32 && (bet_amount * 4) < money && (curr_state == table_state::PREFLOP))
+            if (bn::keypad::up_pressed() && bet_amount < 32 && (bet_amount * 4) < money && (table.get_state() == Poker::Table::State::PREFLOP))
             {
                 bet_amount *= 2;
                 bet_chip_index++;
                 bet_chip_sprite.set_tiles(bn::sprite_items::chips.tiles_item().create_tiles(bet_chip_index));
             }
-            else if (bn::keypad::down_pressed() && bet_amount > 1 && curr_state == table_state::PREFLOP)
+            else if (bn::keypad::down_pressed() && bet_amount > 1 && table.get_state() == Poker::Table::State::PREFLOP)
             {
                 bet_amount /= 2;
                 bet_chip_index--;
@@ -374,12 +367,12 @@ namespace
             }
 
             // Animate the deal
-            if (bn::keypad::a_pressed() && curr_state == table_state::PREFLOP && money)
+            if (bn::keypad::a_pressed() && table.get_state() == Poker::Table::State::PREFLOP && money)
             {
                 money -= bet_amount;
                 ante_chip_sprite.set_tiles(bn::sprite_items::chips.tiles_item().create_tiles(bet_chip_index));
                 ante_chip_sprite.set_visible(true);
-                table = Table(deck);
+                table = Poker::Table(deck);
                 table.deal_pockets();
                 player_pocket = table.get_player_pocket();
                 opponent_pocket = table.get_opponent_pocket();
@@ -394,57 +387,57 @@ namespace
                 show_card(player_pocket.card2, player_hand_sprite[1]);
 
                 move_card(opponent_hand_sprite[1], (player_hand_position.x + 10), -player_hand_position.y);
-                curr_state = table_state::FLOP;
+                table.set_state(Poker::Table::State::FLOP);
             }
-            if (bn::keypad::a_pressed() && curr_state == table_state::FLOP && money)
+            if (bn::keypad::a_pressed() && table.get_state() == Poker::Table::State::FLOP && money)
             {
                 table.deal_flop();
-                Dealer dealer = table.get_dealer();
+                Poker::Dealer dealer = table.get_dealer();
 
                 for (int i = 0; i < 3; i++)
                 {
                     move_card(dealer_cards_sprite[i], dealer_cards_x[i], 0);
                     show_card(dealer.get_cards()[i], dealer_cards_sprite[i]);
                 }
-                curr_state = table_state::TURN;
+                table.set_state(Poker::Table::State::TURN);
             }
 
-            if (bn::keypad::a_pressed() && curr_state == table_state::TURN && money)
+            if (bn::keypad::a_pressed() && table.get_state() == Poker::Table::State::TURN && money)
             {
                 money -= bet_amount;
                 call_chip_sprite.set_tiles(bn::sprite_items::chips.tiles_item().create_tiles(bet_chip_index));
                 call_chip_sprite.set_visible(true);
                 table.deal_turn();
-                Dealer dealer = table.get_dealer();
+                Poker::Dealer dealer = table.get_dealer();
                 move_card(dealer_cards_sprite[3], dealer_cards_x[3], 0);
                 show_card(dealer.get_cards()[3], dealer_cards_sprite[3]);
 
-                curr_state = table_state::RIVER;
+                table.set_state(Poker::Table::State::RIVER);
 
                 table.deal_river();
                 dealer = table.get_dealer();
                 move_card(dealer_cards_sprite[4], dealer_cards_x[4], 0);
                 show_card(dealer.get_cards()[4], dealer_cards_sprite[4]);
-                curr_state = table_state::SHOWDOWN;
+                table.set_state(Poker::Table::State::SHOWDOWN);
             }
 
-            if (bn::keypad::a_pressed() && curr_state == table_state::SHOWDOWN)
+            if (bn::keypad::a_pressed() && table.get_state() == Poker::Table::State::SHOWDOWN)
             {
                 show_card(opponent_pocket.card1, opponent_hand_sprite[0]);
                 show_card(opponent_pocket.card2, opponent_hand_sprite[1]);
 
-                Dealer dealer = table.get_dealer();
-                Hand player_hand(player_pocket, dealer.get_cards());
-                Hand opponent_hand(opponent_pocket, dealer.get_cards());
-                player_result res = table.compete(player_hand, opponent_hand);
-                switch (res)
+                Poker::Dealer dealer = table.get_dealer();
+                Poker::Hand player_hand(player_pocket, dealer.get_cards());
+                Poker::Hand opponent_hand(opponent_pocket, dealer.get_cards());
+                Poker::Result res = table.compete(player_hand, opponent_hand);
+                switch (res.player_result)
                 {
-                case (player_result::WIN):
+                case (Poker::MatchResult::WIN):
                     text_generator.generate(80, 70, "u won!", text_sprites);
                     money += bet_amount * 4;
                     write_sram(money);
                     break;
-                case (player_result::LOSE):
+                case (Poker::MatchResult::LOSE):
                     text_generator.generate(80, 70, "u LOST", text_sprites);
                     write_sram(money);
                     break;
@@ -453,9 +446,9 @@ namespace
                     break;
                 }
 
-                curr_state = table_state::END;
+                table.set_state(Poker::Table::State::END);
             }
-            if (bn::keypad::a_pressed() && curr_state == table_state::END)
+            if (bn::keypad::a_pressed() && table.get_state() == Poker::Table::State::END)
             {
                 break;
             }

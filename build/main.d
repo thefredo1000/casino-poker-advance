@@ -99,12 +99,21 @@ main.o: \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/build/bn_sprite_items_cards_spades.h \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/build/bn_sprite_items_cards_clubs.h \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/build/bn_sprite_items_card_back.h \
- /Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/include/cards.h \
+ /Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/include/poker_deck.h \
+ /Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/include/poker_card.h \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_random.h \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_math.h \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_sin_lut.h \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_reciprocal_lut.h \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_rule_of_three_approximation.h \
+ /Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/include/poker_pocket.h \
+ /Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/include/poker_dealer.h \
+ /Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/include/poker_hand.h \
+ /Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/include/poker_pocket.h \
+ /Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/include/poker_table.h \
+ /Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/include/poker_deck.h \
+ /Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/include/poker_dealer.h \
+ /Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/include/poker_hand.h \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/include/scene_type.h \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/include/menu_screen.h \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/include/scene_type.h \
@@ -208,12 +217,21 @@ main.o: \
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/build/bn_sprite_items_cards_spades.h:
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/build/bn_sprite_items_cards_clubs.h:
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/build/bn_sprite_items_card_back.h:
-/Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/include/cards.h:
+/Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/include/poker_deck.h:
+/Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/include/poker_card.h:
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_random.h:
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_math.h:
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_sin_lut.h:
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_reciprocal_lut.h:
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_rule_of_three_approximation.h:
+/Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/include/poker_pocket.h:
+/Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/include/poker_dealer.h:
+/Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/include/poker_hand.h:
+/Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/include/poker_pocket.h:
+/Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/include/poker_table.h:
+/Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/include/poker_deck.h:
+/Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/include/poker_dealer.h:
+/Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/include/poker_hand.h:
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/include/scene_type.h:
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/include/menu_screen.h:
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/include/scene_type.h:
