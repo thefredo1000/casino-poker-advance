@@ -42,7 +42,7 @@
 
 namespace
 {
-    struct sram_data
+    struct SramData
     {
         bn::array<char, 8> format_tag;
         int money = 0;
@@ -66,7 +66,7 @@ namespace
 
     int read_sram()
     {
-        sram_data cart_sram_data;
+        SramData cart_sram_data;
         bn::sram::read(cart_sram_data);
 
         bn::array<char, 8> expected_format_tag = {'m', 'o', 'n', 'e', 'y'};
@@ -90,7 +90,7 @@ namespace
     void write_sram(int money)
     {
 
-        sram_data cart_sram_data;
+        SramData cart_sram_data;
 
         bn::array<char, 8> expected_format_tag = {'m', 'o', 'n', 'e', 'y'};
 
@@ -389,6 +389,7 @@ namespace
                 move_card(opponent_hand_sprite[1], (player_hand_position.x + 10), -player_hand_position.y);
                 table.set_state(Poker::Table::State::FLOP);
             }
+
             if (bn::keypad::a_pressed() && table.get_state() == Poker::Table::State::FLOP && money)
             {
                 table.deal_flop();
@@ -463,19 +464,20 @@ int main()
 
     bn::sprite_text_generator text_generator(common::variable_8x16_sprite_font);
 
-    scene_type scene = scene_type::TITLE;
+    Game::SceneType scene = Game::SceneType::TITLE;
+    
     while (1)
     {
         switch (scene)
         {
-        case scene_type::TITLE:
+        case Game::SceneType::TITLE:
             title_screen();
-            scene = scene_type::MENU;
+            scene = Game::SceneType::MENU;
             break;
-        case scene_type::MENU:
-            scene = menu_screen();
+        case Game::SceneType::MENU:
+            scene = Game::menu_screen();
             break;
-        case scene_type::GAME:
+        case Game::SceneType::GAME:
             match_screen(text_generator);
             break;
         default:
