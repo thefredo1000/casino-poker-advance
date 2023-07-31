@@ -5,6 +5,8 @@
         "vector": "cpp",
         "__node_handle": "cpp",
         "ostream": "cpp",
-        "chrono": "cpp"
+        "chrono": "cpp",
+        "type_traits": "cpp",
+        "__locale": "cpp"
     },
 }
