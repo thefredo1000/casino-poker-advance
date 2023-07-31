@@ -436,15 +436,15 @@ namespace
                 Dealer dealer = table.get_dealer();
                 Hand player_hand(player_pocket, dealer.get_cards());
                 Hand opponent_hand(opponent_pocket, dealer.get_cards());
-                Result res = table.compete(player_hand, opponent_hand);
+                player_result res = table.compete(player_hand, opponent_hand);
                 switch (res)
                 {
-                case (Result::WIN):
+                case (player_result::WIN):
                     text_generator.generate(80, 70, "u won!", text_sprites);
                     money += bet_amount * 4;
                     write_sram(money);
                     break;
-                case (Result::LOSE):
+                case (player_result::LOSE):
                     text_generator.generate(80, 70, "u LOST", text_sprites);
                     write_sram(money);
                     break;

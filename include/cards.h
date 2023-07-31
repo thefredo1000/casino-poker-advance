@@ -5,7 +5,7 @@
 #ifndef CARDS_H // include guard
 #define CARDS_H
 
-enum class Suit
+enum class suit
 {
     CLUBS = 0,
     DIAMONDS = 1,
@@ -13,7 +13,7 @@ enum class Suit
     SPADES = 3
 };
 
-enum Rank
+enum rank
 {
     TWO,
     THREE,
@@ -30,31 +30,51 @@ enum Rank
     ACE,
 };
 
-enum class Result
+// enum class for win, lose, tie
+enum class player_result
 {
     WIN,
     LOSE,
     TIE
 };
 
+enum class hand_rank {
+    HIGH_CARD,
+    PAIR,
+    TWO_PAIR,
+    THREE_OF_A_KIND,
+    STRAIGHT,
+    FLUSH,
+    FULL_HOUSE,
+    FOUR_OF_A_KIND,
+    STRAIGHT_FLUSH,
+    ROYAL_FLUSH
+};
+
+struct result {
+    player_result player_res;
+    hand_rank player_hand_rank;
+    hand_rank opponent_hand_rank;
+};
+
 class Card
 {
 public:
-    Card(Rank _rank, Suit _suit) : rank(_rank), suit(_suit){};
-    Rank get_rank() const { return this->rank; }
-    Suit get_suit() const { return this->suit; }
+    Card(rank _rank, suit _suit) : rank(_rank), suit(_suit){};
+    rank get_rank() const { return this->rank; }
+    suit get_suit() const { return this->suit; }
     bn::string<8> to_string()
     {
         bn::string<8> str;
         switch (this->suit)
         {
-        case Suit::CLUBS:
+        case suit::CLUBS:
             str = "C-";
             break;
-        case Suit::DIAMONDS:
+        case suit::DIAMONDS:
             str = "D-";
             break;
-        case Suit::HEARTS:
+        case suit::HEARTS:
             str = "H-";
             break;
         default:
@@ -70,8 +90,8 @@ public:
     }
 
 private:
-    Rank rank;
-    Suit suit;
+    rank rank;
+    suit suit;
 };
 
 class Deck
@@ -158,7 +178,7 @@ public:
     Pocket get_player_pocket();
     Pocket get_opponent_pocket();
     Dealer get_dealer();
-    Result compete(Hand player, Hand opponent);
+    player_result compete(Hand player, Hand opponent);
 
 private:
     Deck deck;

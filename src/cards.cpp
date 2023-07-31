@@ -20,7 +20,7 @@ Deck::Deck()
     this->deckSize = 52;
     for (size_t i = 0; i < 52; i++)
     {
-        this->deck.push_back(Card(static_cast<Rank>(i % 13), static_cast<Suit>(i / 13)));
+        this->deck.push_back(Card(static_cast<rank>(i % 13), static_cast<suit>(i / 13)));
     }
 }
 
@@ -55,7 +55,7 @@ void Deck::restart()
     this->deck.clear();
     for (size_t i = 0; i < 52; i++)
     {
-        this->deck.push_back(Card(static_cast<Rank>(i % 13), static_cast<Suit>(i / 13)));
+        this->deck.push_back(Card(static_cast<rank>(i % 13), static_cast<suit>(i / 13)));
     }
 }
 
@@ -121,7 +121,7 @@ Dealer Table::get_dealer()
     return this->dealer;
 }
 
-Result Table::compete(Hand player, Hand opponent)
+player_result Table::compete(Hand player, Hand opponent)
 {
     bn::vector<Card, 7> player_cards = player.getCards();
     bn::vector<Card, 7> opponent_cards = opponent.getCards();
@@ -142,9 +142,9 @@ Result Table::compete(Hand player, Hand opponent)
                                        opponent_cards[5],
                                        opponent_cards[6]);
     if (player_res > opponent_res)
-        return Result::LOSE;
+        return player_result::LOSE;
     else if (player_res == opponent_res)
-        return Result::TIE;
+        return player_result::TIE;
 
-    return Result::WIN;
+    return player_result::WIN;
 }
