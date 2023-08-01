@@ -66,7 +66,7 @@ namespace Poker
         Dealer get_dealer();
         Result compete(Hand player, Hand opponent);
         State get_state() const { return this->state; };
-        void set_state(State state) { this->state = state; };
+        void set_state(State _state) { this->state = _state; };
 
     private:
         Deck deck;
