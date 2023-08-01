@@ -38,6 +38,7 @@ namespace Poker
         MatchResult player_result;
         RankCategory player_hand_rank;
         RankCategory opponent_hand_rank;
+        int pot;
     };
 
     class Table
@@ -64,7 +65,7 @@ namespace Poker
         Pocket get_player_pocket();
         Pocket get_opponent_pocket();
         Dealer get_dealer();
-        Result compete(Hand player, Hand opponent);
+        Result compete(Hand player, Hand opponent, int bet);
         State get_state() const { return this->state; };
         void set_state(State _state) { this->state = _state; };
 
