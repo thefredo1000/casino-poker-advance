@@ -5,6 +5,9 @@ A Casino Hold 'Em port for the GameBoy Advance. If you need to know the rules of
 
 This game is made because I'm currently (as of July 23 2023) looking for a job and while I'm unemployed I want to do the things I wanted to do when I was in High School.
 
+## Building
+You will need DEVKITPRO, DEVKITARM and Butano game engine.
+
 ### Command to build the game
 ```make -j10```
 
