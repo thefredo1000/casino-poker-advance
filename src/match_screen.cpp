@@ -73,7 +73,7 @@ namespace Game
 
     void move_card(bn::sprite_ptr &card_sprite, bn::fixed x_destination, bn::fixed y_destination)
     {
-        const int movement_speed = 2; // You can adjust the speed as needed
+        const int movement_speed = 4; // You can adjust the speed as needed
 
         bn::fixed x = card_sprite.x();
         bn::fixed y = card_sprite.y();
@@ -171,11 +171,18 @@ namespace Game
         call_margin_sprite.set_z_order(1);
         text_generator.generate(8, 70, "call", text_sprites);
 
+        bn::sprite_ptr blind_margin_sprite = bn::sprite_items::chip_margin.create_sprite(45, 50);
+        blind_margin_sprite.set_z_order(1);
+        text_generator.generate(32, 70, "blind", text_sprites);
+
         bn::sprite_ptr ante_chip_sprite = bn::sprite_items::chips.create_sprite(-18, 47);
         ante_chip_sprite.set_visible(false);
 
         bn::sprite_ptr call_chip_sprite = bn::sprite_items::chips.create_sprite(18, 47);
         call_chip_sprite.set_visible(false);
+
+        bn::sprite_ptr blind_chip_sprite = bn::sprite_items::chips.create_sprite(45, 47);
+        blind_chip_sprite.set_visible(false);
 
         bn::sprite_ptr bet_chip_sprite = bn::sprite_items::chips.create_sprite(-40, 47);
         int bet_chip_index = 0;
@@ -203,6 +210,7 @@ namespace Game
                 deck.shuffle();
                 deck.log_deck();
             }
+
             if (bn::keypad::up_pressed() && bet_amount < 32 && (bet_amount * 4) < money && (table.get_state() == Poker::Table::State::PREFLOP))
             {
                 bet_amount *= 2;
@@ -255,11 +263,17 @@ namespace Game
 
             if (bn::keypad::a_pressed() && table.get_state() == Poker::Table::State::TURN && money)
             {
-                money -= bet_amount;
+                money -= bet_amount * 2;
                 call_chip_sprite.set_tiles(bn::sprite_items::chips.tiles_item().create_tiles(bet_chip_index));
                 call_chip_sprite.set_visible(true);
+
+                blind_chip_sprite.set_tiles(bn::sprite_items::chips.tiles_item().create_tiles(bet_chip_index));
+                blind_chip_sprite.set_visible(true);
+
                 table.deal_turn();
+
                 Poker::Dealer dealer = table.get_dealer();
+
                 move_card(dealer_cards_sprite[3], dealer_cards_x[3], 0);
                 show_card(dealer.get_cards()[3], dealer_cards_sprite[3]);
 
@@ -280,12 +294,12 @@ namespace Game
                 Poker::Dealer dealer = table.get_dealer();
                 Poker::Hand player_hand(player_pocket, dealer.get_cards());
                 Poker::Hand opponent_hand(opponent_pocket, dealer.get_cards());
-                Poker::Result res = table.compete(player_hand, opponent_hand);
+                Poker::Result res = table.compete(player_hand, opponent_hand, bet_amount);
                 switch (res.player_result)
                 {
                 case (Poker::MatchResult::WIN):
                     text_generator.generate(80, 70, "u won!", text_sprites);
-                    money += bet_amount * 4;
+                    money += res.pot;
                     write_sram(money);
                     break;
                 case (Poker::MatchResult::LOSE):

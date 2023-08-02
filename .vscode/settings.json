@@ -7,6 +7,9 @@
         "ostream": "cpp",
         "chrono": "cpp",
         "type_traits": "cpp",
-        "__locale": "cpp"
+        "__locale": "cpp",
+        "__bit_reference": "cpp",
+        "bitset": "cpp",
+        "unordered_map": "cpp"
     },
 }

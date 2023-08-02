@@ -8,6 +8,71 @@
 
 namespace Poker
 {
+    enum RankCategory get_rank_category(int rank)
+    {
+        if (rank > 6185)
+            return RankCategory::HIGH_CARD; // 1277 high card
+        if (rank > 3325)
+            return RankCategory::ONE_PAIR; // 2860 one pair
+        if (rank > 2467)
+            return RankCategory::TWO_PAIR; //  858 two pair
+        if (rank > 1609)
+            return RankCategory::THREE_OF_A_KIND; //  858 three-kind
+        if (rank > 1599)
+            return RankCategory::STRAIGHT; //   10 straights
+        if (rank > 322)
+            return RankCategory::FLUSH; // 1277 flushes
+        if (rank > 166)
+            return RankCategory::FULL_HOUSE; //  156 full house
+        if (rank > 10)
+            return RankCategory::FOUR_OF_A_KIND; //  156 four-kind
+        return RankCategory::STRAIGHT_FLUSH;     //   10 straight-flushes
+    }
+
+    int calculate_rank_ratio(RankCategory rank_category)
+    {
+        switch (rank_category)
+        {
+        case RankCategory::STRAIGHT_FLUSH:
+            return 20;
+            break;
+        case RankCategory::FOUR_OF_A_KIND:
+            return 10;
+            break;
+        case RankCategory::FULL_HOUSE:
+            return 3;
+            break;
+        case RankCategory::FLUSH:
+            return 2;
+            break;
+        default:
+            return 1;
+            break;
+        }
+    }
+
+    bool check_four_pair(bn::vector<Card, 7> &cards)
+    {
+        int two_count = 0;
+        for (Card card : cards)
+        {
+            if (card.get_rank() == Poker::Rank::TWO)
+            {
+                two_count++;
+            }
+        }
+
+        int three_count = 0;
+        for (Card card : cards)
+        {
+            if (card.get_rank() == Poker::Rank::THREE)
+            {
+                three_count++;
+            }
+        }
+        return !(two_count == 2 || three_count == 2);
+    }
+
     Table::Table(Deck _deck)
     {
         this->deck = _deck;
@@ -62,8 +127,9 @@ namespace Poker
         return this->dealer;
     }
 
-    Result Table::compete(Hand player, Hand opponent)
+    Result Table::compete(Hand player, Hand opponent, int bet)
     {
+        int pot = 0;
         bn::vector<Card, 7> player_cards = player.getCards();
         bn::vector<Card, 7> opponent_cards = opponent.getCards();
 
@@ -82,13 +148,30 @@ namespace Poker
                                            opponent_cards[4],
                                            opponent_cards[5],
                                            opponent_cards[6]);
+
+        bool opponent_has_four_pair = check_four_pair(opponent_cards);
+
         Result res;
+        res.player_hand_rank = get_rank_category(player_res);
+        res.opponent_hand_rank = get_rank_category(opponent_res);
+
+        int player_ratio = calculate_rank_ratio(res.player_hand_rank);
         if (player_res > opponent_res)
             res.player_result = MatchResult::LOSE;
         else if (player_res == opponent_res)
+        {
+            pot += bet + (bet * 2);
             res.player_result = MatchResult::TIE;
+        }
         else
+        {
+            pot += bet + bet * player_ratio + (bet * 2);
+            if (opponent_has_four_pair && res.opponent_hand_rank != RankCategory::HIGH_CARD)
+                pot += (bet * 2) * player_ratio;
+
+            res.pot = pot;
             res.player_result = MatchResult::WIN;
+        }
 
         return res;
     }
