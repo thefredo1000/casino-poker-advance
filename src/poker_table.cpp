@@ -53,15 +53,24 @@ namespace Poker
 
     bool check_four_pair(bn::vector<Card, 7> &cards)
     {
-        int count = 0;
+        int two_count = 0;
         for (Card card : cards)
         {
-            if (card.get_rank() == Poker::Rank::FOUR)
+            if (card.get_rank() == Poker::Rank::TWO)
             {
-                count++;
+                two_count++;
             }
         }
-        return count >= 2;
+
+        int three_count = 0;
+        for (Card card : cards)
+        {
+            if (card.get_rank() == Poker::Rank::THREE)
+            {
+                three_count++;
+            }
+        }
+        return !(two_count == 2 || three_count == 2);
     }
 
     Table::Table(Deck _deck)
@@ -150,12 +159,15 @@ namespace Poker
         if (player_res > opponent_res)
             res.player_result = MatchResult::LOSE;
         else if (player_res == opponent_res)
+        {
+            pot += bet + (bet * 2);
             res.player_result = MatchResult::TIE;
+        }
         else
         {
-            pot += bet * player_ratio;
-            if (opponent_has_four_pair)
-                pot *= 3;
+            pot += bet + bet * player_ratio + (bet * 2);
+            if (opponent_has_four_pair && res.opponent_hand_rank != RankCategory::HIGH_CARD)
+                pot += (bet * 2) * player_ratio;
 
             res.pot = pot;
             res.player_result = MatchResult::WIN;
