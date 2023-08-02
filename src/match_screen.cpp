@@ -194,12 +194,6 @@ namespace Game
 
         while (1)
         {
-
-            if (bn::keypad::b_pressed())
-            {
-                write_sram(200);
-            }
-
             if (bn::keypad::r_pressed())
             {
                 write_sram(0);
@@ -259,6 +253,13 @@ namespace Game
                     show_card(dealer.get_cards()[i], dealer_cards_sprite[i]);
                 }
                 table.set_state(Poker::Table::State::TURN);
+            }
+
+            if (bn::keypad::b_pressed() && table.get_state() == Poker::Table::State::TURN)
+            {
+                write_sram(money);
+                table.set_state(Poker::Table::State::END);
+                break;
             }
 
             if (bn::keypad::a_pressed() && table.get_state() == Poker::Table::State::TURN && money)
