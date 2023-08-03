@@ -2,12 +2,9 @@
 
 #include "bn_core.h"
 #include "bn_sram.h"
-#include "bn_music.h"
 #include "bn_string.h"
 #include "bn_keypad.h"
 #include "bn_display.h"
-
-#include "bn_music_items.h"
 
 #include "common_info.h"
 #include "common_variable_8x8_sprite_font.h"
@@ -120,8 +117,6 @@ namespace Game
 
     void match_screen(bn::sprite_text_generator &text_generator)
     {
-        // Play music
-        bn::music_items::hassans_spaceship.play(0.5);
 
         // Money
         int money = read_sram();
@@ -147,6 +142,7 @@ namespace Game
 
         // Sprites
         bn::sprite_ptr deck_sprite = bn::sprite_items::card_back.create_sprite(80, -40);
+        deck_sprite.set_z_order(-1);
 
         bn::vector<bn::sprite_ptr, 2> player_hand_sprite;
         player_hand_sprite.push_back(bn::sprite_items::card_back.create_sprite(80, -40));
@@ -192,130 +188,135 @@ namespace Game
         for (int i = 0; i < 10; i++)
             bn::core::update();
 
-        while (1)
+        bool play = true;
+        while (play)
         {
-            if (bn::keypad::r_pressed())
-            {
-                write_sram(0);
-            }
 
-            if (table.get_state() == Poker::Table::State::PREFLOP)
+            Poker::Table::State table_state = table.get_state();
+
+            switch (table_state)
             {
+            case Poker::Table::State::PREFLOP:
                 deck.shuffle();
-                deck.log_deck();
-            }
-
-            if (bn::keypad::up_pressed() && bet_amount < 32 && (bet_amount * 4) < money && (table.get_state() == Poker::Table::State::PREFLOP))
-            {
-                bet_amount *= 2;
-                bet_chip_index++;
-                bet_chip_sprite.set_tiles(bn::sprite_items::chips.tiles_item().create_tiles(bet_chip_index));
-            }
-            else if (bn::keypad::down_pressed() && bet_amount > 1 && table.get_state() == Poker::Table::State::PREFLOP)
-            {
-                bet_amount /= 2;
-                bet_chip_index--;
-                bet_chip_sprite.set_tiles(bn::sprite_items::chips.tiles_item().create_tiles(bet_chip_index));
-            }
-
-            // Animate the deal
-            if (bn::keypad::a_pressed() && table.get_state() == Poker::Table::State::PREFLOP && money)
-            {
-                money -= bet_amount;
-                ante_chip_sprite.set_tiles(bn::sprite_items::chips.tiles_item().create_tiles(bet_chip_index));
-                ante_chip_sprite.set_visible(true);
-                table = Poker::Table(deck);
-                table.deal_pockets();
-                player_pocket = table.get_player_pocket();
-                opponent_pocket = table.get_opponent_pocket();
-
-                // Deal hands
-                move_card(player_hand_sprite[0], (player_hand_position.x - 10), player_hand_position.y);
-                show_card(player_pocket.card1, player_hand_sprite[0]);
-
-                move_card(opponent_hand_sprite[0], (player_hand_position.x - 10), -player_hand_position.y);
-
-                move_card(player_hand_sprite[1], (player_hand_position.x + 10), player_hand_position.y);
-                show_card(player_pocket.card2, player_hand_sprite[1]);
-
-                move_card(opponent_hand_sprite[1], (player_hand_position.x + 10), -player_hand_position.y);
-                table.set_state(Poker::Table::State::FLOP);
-            }
-
-            if (bn::keypad::a_pressed() && table.get_state() == Poker::Table::State::FLOP && money)
-            {
-                table.deal_flop();
-                Poker::Dealer dealer = table.get_dealer();
-
-                for (int i = 0; i < 3; i++)
+                if (bn::keypad::up_pressed() && bet_amount < 32 && (bet_amount * 4) < money)
                 {
-                    move_card(dealer_cards_sprite[i], dealer_cards_x[i], 0);
-                    show_card(dealer.get_cards()[i], dealer_cards_sprite[i]);
+                    bet_amount *= 2;
+                    bet_chip_index++;
+                    bet_chip_sprite.set_tiles(bn::sprite_items::chips.tiles_item().create_tiles(bet_chip_index));
                 }
-                table.set_state(Poker::Table::State::TURN);
-            }
+                else if (bn::keypad::down_pressed() && bet_amount > 1)
+                {
+                    bet_amount /= 2;
+                    bet_chip_index--;
+                    bet_chip_sprite.set_tiles(bn::sprite_items::chips.tiles_item().create_tiles(bet_chip_index));
+                }
+                else if (bn::keypad::a_pressed() && money)
+                {
+                    money -= bet_amount;
+                    ante_chip_sprite.set_tiles(bn::sprite_items::chips.tiles_item().create_tiles(bet_chip_index));
+                    ante_chip_sprite.set_visible(true);
+                    table = Poker::Table(deck);
+                    table.deal_pockets();
+                    player_pocket = table.get_player_pocket();
+                    opponent_pocket = table.get_opponent_pocket();
 
-            if (bn::keypad::b_pressed() && table.get_state() == Poker::Table::State::TURN)
-            {
-                write_sram(money);
-                table.set_state(Poker::Table::State::END);
+                    // Deal hands
+                    move_card(player_hand_sprite[0], (player_hand_position.x - 10), player_hand_position.y);
+                    show_card(player_pocket.card1, player_hand_sprite[0]);
+
+                    move_card(opponent_hand_sprite[0], (player_hand_position.x - 10), -player_hand_position.y);
+
+                    move_card(player_hand_sprite[1], (player_hand_position.x + 10), player_hand_position.y);
+                    show_card(player_pocket.card2, player_hand_sprite[1]);
+
+                    move_card(opponent_hand_sprite[1], (player_hand_position.x + 10), -player_hand_position.y);
+                    table.set_state(Poker::Table::State::FLOP);
+
+                    table.deal_flop();
+                    Poker::Dealer dealer = table.get_dealer();
+
+                    for (int i = 0; i < 3; i++)
+                    {
+                        move_card(dealer_cards_sprite[i], dealer_cards_x[i], 0);
+                        show_card(dealer.get_cards()[i], dealer_cards_sprite[i]);
+                    }
+                    table.set_state(Poker::Table::State::TURN);
+                }
                 break;
-            }
 
-            if (bn::keypad::a_pressed() && table.get_state() == Poker::Table::State::TURN && money)
-            {
-                money -= bet_amount * 2;
-                call_chip_sprite.set_tiles(bn::sprite_items::chips.tiles_item().create_tiles(bet_chip_index));
-                call_chip_sprite.set_visible(true);
-
-                blind_chip_sprite.set_tiles(bn::sprite_items::chips.tiles_item().create_tiles(bet_chip_index));
-                blind_chip_sprite.set_visible(true);
-
-                table.deal_turn();
-
-                Poker::Dealer dealer = table.get_dealer();
-
-                move_card(dealer_cards_sprite[3], dealer_cards_x[3], 0);
-                show_card(dealer.get_cards()[3], dealer_cards_sprite[3]);
-
-                table.set_state(Poker::Table::State::RIVER);
-
-                table.deal_river();
-                dealer = table.get_dealer();
-                move_card(dealer_cards_sprite[4], dealer_cards_x[4], 0);
-                show_card(dealer.get_cards()[4], dealer_cards_sprite[4]);
-                table.set_state(Poker::Table::State::SHOWDOWN);
-            }
-
-            if (bn::keypad::a_pressed() && table.get_state() == Poker::Table::State::SHOWDOWN)
-            {
-                show_card(opponent_pocket.card1, opponent_hand_sprite[0]);
-                show_card(opponent_pocket.card2, opponent_hand_sprite[1]);
-
-                Poker::Dealer dealer = table.get_dealer();
-                Poker::Hand player_hand(player_pocket, dealer.get_cards());
-                Poker::Hand opponent_hand(opponent_pocket, dealer.get_cards());
-                Poker::Result res = table.compete(player_hand, opponent_hand, bet_amount);
-                switch (res.player_result)
+            case Poker::Table::State::TURN:
+                if (bn::keypad::b_pressed())
                 {
-                case (Poker::MatchResult::WIN):
-                    text_generator.generate(80, 70, "u won!", text_sprites);
-                    money += res.pot;
                     write_sram(money);
-                    break;
-                case (Poker::MatchResult::LOSE):
-                    text_generator.generate(80, 70, "u LOST", text_sprites);
-                    write_sram(money);
-                    break;
-                default:
-                    text_generator.generate(80, 70, "TIE", text_sprites);
-                    break;
+                    table.set_state(Poker::Table::State::END);
+                    play = false;
                 }
+                else if (bn::keypad::a_pressed())
+                {
+                    money -= bet_amount * 2;
+                    call_chip_sprite.set_tiles(bn::sprite_items::chips.tiles_item().create_tiles(bet_chip_index));
+                    call_chip_sprite.set_visible(true);
 
-                table.set_state(Poker::Table::State::END);
-            }
-            if (bn::keypad::a_pressed() && table.get_state() == Poker::Table::State::END)
-            {
+                    blind_chip_sprite.set_tiles(bn::sprite_items::chips.tiles_item().create_tiles(bet_chip_index));
+                    blind_chip_sprite.set_visible(true);
+
+                    table.deal_turn();
+
+                    Poker::Dealer dealer = table.get_dealer();
+
+                    move_card(dealer_cards_sprite[3], dealer_cards_x[3], 0);
+                    show_card(dealer.get_cards()[3], dealer_cards_sprite[3]);
+
+                    table.set_state(Poker::Table::State::RIVER);
+
+                    table.deal_river();
+                    dealer = table.get_dealer();
+                    move_card(dealer_cards_sprite[4], dealer_cards_x[4], 0);
+                    show_card(dealer.get_cards()[4], dealer_cards_sprite[4]);
+                    table.set_state(Poker::Table::State::SHOWDOWN);
+
+                    show_card(opponent_pocket.card1, opponent_hand_sprite[0]);
+                    show_card(opponent_pocket.card2, opponent_hand_sprite[1]);
+
+                    Poker::Hand player_hand(player_pocket, dealer.get_cards());
+                    Poker::Hand opponent_hand(opponent_pocket, dealer.get_cards());
+                    Poker::Result res = table.compete(player_hand, opponent_hand, bet_amount);
+                    switch (res.player_result)
+                    {
+                    case (Poker::MatchResult::WIN):
+                        text_generator.generate(80, 70, "u won!", text_sprites);
+                        money += res.pot;
+                        write_sram(money);
+                        break;
+                    case (Poker::MatchResult::LOSE):
+                        text_generator.generate(80, 70, "u LOST", text_sprites);
+                        write_sram(money);
+                        break;
+                    default:
+                        text_generator.generate(80, 70, "TIE", text_sprites);
+                        break;
+                    }
+
+                    table.set_state(Poker::Table::State::END);
+                }
+                break;
+
+            case Poker::Table::State::END:
+                if (bn::keypad::a_pressed())
+                {
+                    play = false;
+
+                    move_card(opponent_hand_sprite[0], 80, -40);
+                    move_card(opponent_hand_sprite[1], 80, -40);
+                    for (bn::sprite_ptr card_sprite : dealer_cards_sprite)
+                    {
+                        move_card(card_sprite, 80, -40);
+                    }
+                    move_card(player_hand_sprite[0], 80, -40);
+                    move_card(player_hand_sprite[1], 80, -40);
+                }
+                break;
+            default:
                 break;
             }
             bn::core::update();

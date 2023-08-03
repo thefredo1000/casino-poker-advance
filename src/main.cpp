@@ -18,9 +18,7 @@
 #include "bn_music_items.h"
 
 #include "common_info.h"
-#include "common_variable_8x8_sprite_font.h"
 #include "common_variable_8x16_sprite_font.h"
-#include "common_variable_16x16_sprite_font.h"
 #include "bn_regular_bg_items_title_screen.h"
 #include "bn_sprite_items_red_sprite.h"
 #include "bn_sprite_items_chips.h"
@@ -60,8 +58,10 @@ int main()
             break;
         case Game::SceneType::MENU:
             scene = Game::menu_screen();
+            bn::music_items::hassans_spaceship.play(0.5);
             break;
         case Game::SceneType::GAME:
+            // Play music
             Game::match_screen(text_generator);
             break;
         default:
