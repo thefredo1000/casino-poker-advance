@@ -63,11 +63,8 @@ match_screen.o: \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_vblank_callback_type.h \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_sram.h \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/../hw/include/bn_hw_sram_constants.h \
- /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_music.h \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_string.h \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_keypad.h \
- /Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/build/bn_music_items.h \
- /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_music_item.h \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/../../common/include/common_info.h \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_span.h \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_sprite_ptr.h \
@@ -169,11 +166,8 @@ match_screen.o: \
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_vblank_callback_type.h:
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_sram.h:
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/../hw/include/bn_hw_sram_constants.h:
-/Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_music.h:
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_string.h:
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_keypad.h:
-/Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/build/bn_music_items.h:
-/Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_music_item.h:
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/../../common/include/common_info.h:
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_span.h:
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_sprite_ptr.h:
