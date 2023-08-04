@@ -19,12 +19,10 @@ namespace Game
 {
     SceneType menu_screen()
     {
-
+        // Background color
         bn::bg_palettes::set_transparent_color(bn::color(6, 12, 9));
         bn::sprite_text_generator title_text_generator(common::variable_16x16_sprite_font);
-        bn::sprite_text_generator subtitle_text_generator(common::variable_8x8_sprite_font);
         title_text_generator.set_center_alignment();
-        subtitle_text_generator.set_center_alignment();
 
         bn::vector<bn::sprite_ptr, 32> text_sprites;
 
@@ -33,11 +31,13 @@ namespace Game
         title_text_generator.generate(0, 88 - text_y_limit, "Extras", text_sprites);
         title_text_generator.generate(0, 112 - text_y_limit, "Credits", text_sprites);
 
+        // Scale the text
         for (int i = 0; i < text_sprites.size(); i++)
         {
             text_sprites[i].set_scale(1, 2);
         }
 
+        // Card sprites
         bn::sprite_ptr card_sprite_left = bn::sprite_items::cards_spades.create_sprite(-56, -24);
         bn::sprite_ptr card_sprite_right = bn::sprite_items::cards_diamond.create_sprite(56, -24);
 
