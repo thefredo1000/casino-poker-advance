@@ -27,27 +27,23 @@ namespace Game
     {
 
         bn::music_items::erotic.play(0.25);
+
+        // Create background
         bn::regular_bg_ptr green_bg = bn::regular_bg_items::title_screen.create_bg(8, 48);
 
-        bn::sprite_text_generator title_text_generator(common::variable_16x16_sprite_font);
-        bn::sprite_text_generator subtitle_text_generator(common::variable_8x8_sprite_font);
-        title_text_generator.set_center_alignment();
-        subtitle_text_generator.set_center_alignment();
-
-        bn::vector<bn::sprite_ptr, 32> text_sprites;
-
+        // Create sprites
         bn::sprite_ptr diamond_cards_sprite = bn::sprite_items::cards_diamond.create_sprite(-64, 40);
-        diamond_cards_sprite.set_tiles(bn::sprite_items::cards_diamond.tiles_item().create_tiles(static_cast<int>(Poker::Rank::ACE)));
-
         bn::sprite_ptr hearts_cards_sprite = bn::sprite_items::cards_hearts.create_sprite(24, 50);
-        hearts_cards_sprite.set_tiles(bn::sprite_items::cards_diamond.tiles_item().create_tiles(static_cast<int>(Poker::Rank::ACE)));
-
         bn::sprite_ptr spades_cards_sprite = bn::sprite_items::cards_spades.create_sprite(-24, 50);
-        spades_cards_sprite.set_tiles(bn::sprite_items::cards_diamond.tiles_item().create_tiles(static_cast<int>(Poker::Rank::ACE)));
-
         bn::sprite_ptr clubs_cards_sprite = bn::sprite_items::cards_clubs.create_sprite(64, 40);
+
+        // Set the ACE card for all suits
+        diamond_cards_sprite.set_tiles(bn::sprite_items::cards_diamond.tiles_item().create_tiles(static_cast<int>(Poker::Rank::ACE)));
+        hearts_cards_sprite.set_tiles(bn::sprite_items::cards_diamond.tiles_item().create_tiles(static_cast<int>(Poker::Rank::ACE)));
+        spades_cards_sprite.set_tiles(bn::sprite_items::cards_diamond.tiles_item().create_tiles(static_cast<int>(Poker::Rank::ACE)));
         clubs_cards_sprite.set_tiles(bn::sprite_items::cards_diamond.tiles_item().create_tiles(static_cast<int>(Poker::Rank::ACE)));
 
+        // Scale up the sprites
         diamond_cards_sprite.set_scale(1.4, 2);
         hearts_cards_sprite.set_scale(1.4, 2);
         spades_cards_sprite.set_scale(1.4, 2);
@@ -57,13 +53,10 @@ namespace Game
         hearts_cards_sprite.set_mosaic_enabled(true);
         spades_cards_sprite.set_mosaic_enabled(true);
         clubs_cards_sprite.set_mosaic_enabled(true);
-        for (int i = 0; i < text_sprites.size(); i++)
-        {
-            text_sprites[i].set_mosaic_enabled(true);
-        }
 
         int rotation = 0;
         bool clockwise = true;
+        // Rotate the sprites until any key is pressed
         while (!bn::keypad::any_pressed())
         {
 
@@ -97,7 +90,9 @@ namespace Game
         }
 
         bn::sprites_mosaic_stretch_loop_action action(120, 1);
-        for (unsigned int i = 0; i < 100; ++i)
+
+        // Small sprite animation
+        for (unsigned int i = 0; i < 50; ++i)
         {
             action.update();
             bn::core::update();
