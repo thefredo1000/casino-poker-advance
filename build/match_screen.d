@@ -51,6 +51,7 @@ match_screen.o: \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_sprite_palette_ptr.h \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_sprite_affine_mat_ptr.h \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_sprite_double_size_mode.h \
+ /Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/include/scene_type.h \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/include/poker_card.h \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_vector.h \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_random.h \
@@ -154,6 +155,7 @@ match_screen.o: \
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_sprite_palette_ptr.h:
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_sprite_affine_mat_ptr.h:
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_sprite_double_size_mode.h:
+/Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/include/scene_type.h:
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/include/poker_card.h:
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_vector.h:
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_random.h:

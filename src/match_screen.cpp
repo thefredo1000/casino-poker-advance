@@ -115,7 +115,7 @@ namespace Game
         }
     }
 
-    void match_screen(bn::sprite_text_generator &text_generator)
+    SceneType match_screen(bn::sprite_text_generator &text_generator)
     {
 
         // Money
@@ -141,23 +141,23 @@ namespace Game
         Poker::Pocket opponent_pocket = table.get_opponent_pocket();
 
         // Sprites
-        bn::sprite_ptr deck_sprite = bn::sprite_items::card_back.create_sprite(80, -40);
+        bn::sprite_ptr deck_sprite = bn::sprite_items::card_back.create_sprite(deck_position.x, deck_position.y);
         deck_sprite.set_z_order(-1);
 
         bn::vector<bn::sprite_ptr, 2> player_hand_sprite;
-        player_hand_sprite.push_back(bn::sprite_items::card_back.create_sprite(80, -40));
-        player_hand_sprite.push_back(bn::sprite_items::card_back.create_sprite(80, -40));
+        player_hand_sprite.push_back(bn::sprite_items::card_back.create_sprite(deck_position.x, deck_position.y));
+        player_hand_sprite.push_back(bn::sprite_items::card_back.create_sprite(deck_position.x, deck_position.y));
 
         bn::vector<bn::sprite_ptr, 2> opponent_hand_sprite;
-        opponent_hand_sprite.push_back(bn::sprite_items::card_back.create_sprite(80, -40));
-        opponent_hand_sprite.push_back(bn::sprite_items::card_back.create_sprite(80, -40));
+        opponent_hand_sprite.push_back(bn::sprite_items::card_back.create_sprite(deck_position.x, deck_position.y));
+        opponent_hand_sprite.push_back(bn::sprite_items::card_back.create_sprite(deck_position.x, deck_position.y));
 
         bn::vector<bn::sprite_ptr, 5> dealer_cards_sprite;
-        dealer_cards_sprite.push_back(bn::sprite_items::card_back.create_sprite(80, -40));
-        dealer_cards_sprite.push_back(bn::sprite_items::card_back.create_sprite(80, -40));
-        dealer_cards_sprite.push_back(bn::sprite_items::card_back.create_sprite(80, -40));
-        dealer_cards_sprite.push_back(bn::sprite_items::card_back.create_sprite(80, -40));
-        dealer_cards_sprite.push_back(bn::sprite_items::card_back.create_sprite(80, -40));
+        dealer_cards_sprite.push_back(bn::sprite_items::card_back.create_sprite(deck_position.x, deck_position.y));
+        dealer_cards_sprite.push_back(bn::sprite_items::card_back.create_sprite(deck_position.x, deck_position.y));
+        dealer_cards_sprite.push_back(bn::sprite_items::card_back.create_sprite(deck_position.x, deck_position.y));
+        dealer_cards_sprite.push_back(bn::sprite_items::card_back.create_sprite(deck_position.x, deck_position.y));
+        dealer_cards_sprite.push_back(bn::sprite_items::card_back.create_sprite(deck_position.x, deck_position.y));
 
         bn::sprite_ptr ante_margin_sprite = bn::sprite_items::chip_margin.create_sprite(-18, 50);
         ante_margin_sprite.set_z_order(1);
@@ -198,7 +198,13 @@ namespace Game
             {
             case Poker::Table::State::PREFLOP:
                 deck.shuffle();
-                if (bn::keypad::up_pressed() && bet_amount < 32 && (bet_amount * 4) < money)
+
+                if (bn::keypad::b_pressed())
+                {
+                    play = false;
+                    return SceneType::MENU;
+                }
+                else if (bn::keypad::up_pressed() && bet_amount < 32 && (bet_amount * 4) < money)
                 {
                     bet_amount *= 2;
                     bet_chip_index++;
@@ -306,14 +312,14 @@ namespace Game
                 {
                     play = false;
 
-                    move_card(opponent_hand_sprite[0], 80, -40);
-                    move_card(opponent_hand_sprite[1], 80, -40);
+                    move_card(opponent_hand_sprite[0], deck_position.x, deck_position.y);
+                    move_card(opponent_hand_sprite[1], deck_position.x, deck_position.y);
                     for (bn::sprite_ptr card_sprite : dealer_cards_sprite)
                     {
-                        move_card(card_sprite, 80, -40);
+                        move_card(card_sprite, deck_position.x, deck_position.y);
                     }
-                    move_card(player_hand_sprite[0], 80, -40);
-                    move_card(player_hand_sprite[1], 80, -40);
+                    move_card(player_hand_sprite[0], deck_position.x, deck_position.y);
+                    move_card(player_hand_sprite[1], deck_position.x, deck_position.y);
                 }
                 break;
             default:
@@ -321,5 +327,6 @@ namespace Game
             }
             bn::core::update();
         }
+        return SceneType::GAME;
     }
 }

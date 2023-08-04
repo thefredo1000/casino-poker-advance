@@ -61,8 +61,7 @@ int main()
             bn::music_items::hassans_spaceship.play(0.5);
             break;
         case Game::SceneType::GAME:
-            // Play music
-            Game::match_screen(text_generator);
+            scene = Game::match_screen(text_generator);
             break;
         default:
             break;
