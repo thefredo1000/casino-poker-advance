@@ -8,11 +8,11 @@
 //======================================================================
 //
 //	title_bottom_bn_gfx, 16x96@8, 
-//	+ palette 112 entries, not compressed
+//	+ palette 48 entries, not compressed
 //	+ 24 tiles not compressed
-//	Total size: 224 + 1536 = 1760
+//	Total size: 96 + 1536 = 1632
 //
-//	Time-stamp: 2023-08-05, 15:15:57
+//	Time-stamp: 2023-08-06, 22:36:50
 //	Exported by Cearn's GBA Image Transmogrifier, v0.9.2
 //	( http://www.coranac.com/projects/#grit )
 //
@@ -24,8 +24,8 @@
 #define title_bottom_bn_gfxTilesLen 1536
 extern const bn::tile title_bottom_bn_gfxTiles[48];
 
-#define title_bottom_bn_gfxPalLen 224
-extern const bn::color title_bottom_bn_gfxPal[112];
+#define title_bottom_bn_gfxPalLen 96
+extern const bn::color title_bottom_bn_gfxPal[48];
 
 #endif // GRIT_TITLE_BOTTOM_BN_GFX_H
 
@@ -33,9 +33,9 @@ extern const bn::color title_bottom_bn_gfxPal[112];
 
 namespace bn::sprite_items
 {
-    constexpr inline sprite_item title_bottom(sprite_shape_size(sprite_shape::TALL, sprite_size::BIG), 
-            sprite_tiles_item(span<const tile>(title_bottom_bn_gfxTiles, 48), bpp_mode::BPP_8, compression_type::NONE, 3), 
-            sprite_palette_item(span<const color>(title_bottom_bn_gfxPal, 112), bpp_mode::BPP_8, compression_type::NONE));
+    constexpr inline sprite_item title_bottom(sprite_shape_size(sprite_shape::SQUARE, sprite_size::NORMAL), 
+            sprite_tiles_item(span<const tile>(title_bottom_bn_gfxTiles, 48), bpp_mode::BPP_8, compression_type::NONE, 6), 
+            sprite_palette_item(span<const color>(title_bottom_bn_gfxPal, 48), bpp_mode::BPP_8, compression_type::NONE));
 }
 
 #endif

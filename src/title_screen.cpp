@@ -14,6 +14,8 @@
 #include "common_variable_16x16_sprite_font.h"
 #include "bn_regular_bg_items_title_screen.h"
 #include "bn_sprite_items_title_top.h"
+#include "bn_sprite_items_title_bottom.h"
+#include "bn_sprite_items_title_bottom.h"
 #include "bn_sprite_items_cards_diamond.h"
 #include "bn_sprite_items_cards_hearts.h"
 #include "bn_sprite_items_cards_spades.h"
@@ -35,9 +37,17 @@ namespace Game
         bn::vector<bn::sprite_ptr, 6> title_top_sprites;
         for (int i = 0; i < 6; i++)
         {
-            title_top_sprites.push_back(bn::sprite_items::title_top.create_sprite(i * 16, 0));
+            title_top_sprites.push_back(bn::sprite_items::title_top.create_sprite(i * 16, -16));
             title_top_sprites[i].set_tiles(bn::sprite_items::title_top.tiles_item().create_tiles(i));
             title_top_sprites[i].set_rotation_angle(90);
+        }
+
+        bn::vector<bn::sprite_ptr, 6> title_bottom_sprites;
+        for (int i = 0; i < 6; i++)
+        {
+            title_bottom_sprites.push_back(bn::sprite_items::title_bottom.create_sprite(i * 16, 0));
+            title_bottom_sprites[i].set_tiles(bn::sprite_items::title_bottom.tiles_item().create_tiles(i));
+            title_bottom_sprites[i].set_rotation_angle(90);
         }
 
         // Create sprites
