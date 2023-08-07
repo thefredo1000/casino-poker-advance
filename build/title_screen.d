@@ -75,6 +75,7 @@ title_screen.o: \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_size.h \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_regular_bg_map_cell.h \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_regular_bg_tiles_item.h \
+ /Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/build/bn_sprite_items_title_top.h \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/build/bn_sprite_items_cards_diamond.h \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/build/bn_sprite_items_cards_hearts.h \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/build/bn_sprite_items_cards_spades.h \
@@ -161,6 +162,7 @@ title_screen.o: \
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_size.h:
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_regular_bg_map_cell.h:
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_regular_bg_tiles_item.h:
+/Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/build/bn_sprite_items_title_top.h:
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/build/bn_sprite_items_cards_diamond.h:
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/build/bn_sprite_items_cards_hearts.h:
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/build/bn_sprite_items_cards_spades.h:
