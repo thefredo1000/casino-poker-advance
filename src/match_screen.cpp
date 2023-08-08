@@ -128,7 +128,11 @@ namespace Game
         text_stream.append("Press A to play");
         text_generator.generate(-50, -70, text, text_sprites);
         text_generator.generate(-114, 70, "Money: ", text_sprites);
-        text_generator.generate(-72, 70, bn::to_string<32>(money), text_sprites);
+
+        bn::vector<bn::sprite_ptr, 4> money_sprites;
+        bn::vector<bn::sprite_ptr, 4> deal_sprites;
+        bn::vector<bn::sprite_ptr, 4> call_sprites;
+        text_generator.generate(-72, 70, bn::to_string<32>(money), money_sprites);
 
         // First Deck
         Poker::Deck deck = Poker::Deck();
@@ -203,7 +207,6 @@ namespace Game
         bool play = true;
         while (play)
         {
-
             // Get table state
             Poker::Table::State table_state = table.get_state();
 
@@ -235,6 +238,11 @@ namespace Game
                 {
                     // Place bet
                     money -= bet_amount;
+                    for (bn::sprite_ptr &money_sprite : money_sprites)
+                    {
+                        money_sprite.set_visible(false);
+                    }
+                    text_generator.generate(-72, 70, bn::to_string<32>(money), deal_sprites);
                     ante_chip_sprite.set_tiles(bn::sprite_items::chips.tiles_item().create_tiles(bet_chip_index));
                     ante_chip_sprite.set_visible(true);
 
@@ -283,6 +291,11 @@ namespace Game
                 {
                     // Call
                     money -= bet_amount * 2;
+                    for (bn::sprite_ptr &money_sprite : deal_sprites)
+                    {
+                        money_sprite.set_visible(false);
+                    }
+                    text_generator.generate(-72, 70, bn::to_string<32>(money), call_sprites);
                     call_chip_sprite.set_tiles(bn::sprite_items::chips.tiles_item().create_tiles(bet_chip_index));
                     call_chip_sprite.set_visible(true);
 

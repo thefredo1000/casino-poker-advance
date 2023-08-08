@@ -68,7 +68,7 @@ title_screen.o: \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_sprite_item.h \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/../../common/include/common_variable_16x16_sprite_font.h \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/build/bn_sprite_items_common_variable_16x16_font.h \
- /Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/build/bn_regular_bg_items_title_screen.h \
+ /Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/build/bn_regular_bg_items_title_screen_temp.h \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_regular_bg_item.h \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_bg_palette_item.h \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_regular_bg_map_item.h \
@@ -156,7 +156,7 @@ title_screen.o: \
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_sprite_item.h:
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/../../common/include/common_variable_16x16_sprite_font.h:
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/build/bn_sprite_items_common_variable_16x16_font.h:
-/Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/build/bn_regular_bg_items_title_screen.h:
+/Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/build/bn_regular_bg_items_title_screen_temp.h:
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_regular_bg_item.h:
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_bg_palette_item.h:
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_regular_bg_map_item.h:
