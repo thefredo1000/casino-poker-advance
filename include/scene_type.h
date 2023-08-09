@@ -9,8 +9,8 @@ namespace Game
         TITLE,
         MENU,
         GAME,
-        OPTIONS,
         EXTRAS,
+        OPTIONS,
         CREDITS
     };
 }

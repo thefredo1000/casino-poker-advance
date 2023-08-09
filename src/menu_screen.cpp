@@ -27,9 +27,7 @@ namespace Game
         bn::vector<bn::sprite_ptr, 32> text_sprites;
 
         title_text_generator.generate(0, 40 - text_y_limit, "Play", text_sprites);
-        title_text_generator.generate(0, 64 - text_y_limit, "Options", text_sprites);
-        title_text_generator.generate(0, 88 - text_y_limit, "Extras", text_sprites);
-        title_text_generator.generate(0, 112 - text_y_limit, "Credits", text_sprites);
+        title_text_generator.generate(0, 64 - text_y_limit, "Extras", text_sprites);
 
         // Scale the text
         for (int i = 0; i < text_sprites.size(); i++)
@@ -53,7 +51,7 @@ namespace Game
             }
             else if (bn::keypad::down_pressed())
             {
-                text_index = text_index + (text_index != 3);
+                text_index = text_index + (text_index != 1);
             }
 
             bn::core::update();

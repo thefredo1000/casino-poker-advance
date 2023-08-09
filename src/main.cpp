@@ -39,6 +39,8 @@
 #include "title_screen.h"
 #include "menu_screen.h"
 #include "match_screen.h"
+#include "extras_screen.h"
+#include <bn_log.h>
 
 int main()
 {
@@ -55,13 +57,17 @@ int main()
         case Game::SceneType::TITLE:
             Game::title_screen();
             scene = Game::SceneType::MENU;
+            bn::music_items::hassans_spaceship.play(0.5);
             break;
         case Game::SceneType::MENU:
             scene = Game::menu_screen();
-            bn::music_items::hassans_spaceship.play(0.5);
+            BN_LOG("SceneType: ", int(scene));
             break;
         case Game::SceneType::GAME:
             scene = Game::match_screen(text_generator);
+            break;
+        case Game::SceneType::EXTRAS:
+            scene = Game::extras_screen();
             break;
         default:
             break;
