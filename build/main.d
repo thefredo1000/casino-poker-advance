@@ -115,7 +115,9 @@ main.o: \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/include/menu_screen.h \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/include/scene_type.h \
  /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_fixed.h \
- /Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/include/match_screen.h
+ /Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/include/match_screen.h \
+ /Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/include/extras_screen.h \
+ /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_log.h
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_core.h:
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_span.h:
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_array.h:
@@ -232,3 +234,5 @@ main.o: \
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/include/scene_type.h:
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_fixed.h:
 /Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/include/match_screen.h:
+/Users/rodrigocasale/Documents/proyects/gba_dev/butano/games/poker/include/extras_screen.h:
+/Users/rodrigocasale/Documents/proyects/gba_dev/butano/butano/include/bn_log.h:
