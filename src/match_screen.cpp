@@ -330,12 +330,12 @@ namespace Game
                     switch (res.player_result)
                     {
                     case (Poker::MatchResult::WIN):
-                        text_generator.generate(80, 70, "u won!", text_sprites);
+                        text_generator.generate(80, 70, "You Won!", text_sprites);
                         money += res.pot;
                         write_sram(money);
                         break;
                     case (Poker::MatchResult::LOSE):
-                        text_generator.generate(80, 70, "u LOST", text_sprites);
+                        text_generator.generate(80, 70, "You Lost!", text_sprites);
                         write_sram(money);
                         break;
                     default:

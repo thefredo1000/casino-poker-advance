@@ -36,9 +36,10 @@ namespace Game
 
         bn::sprite_text_generator description_text_generator(common::variable_8x8_sprite_font);
         description_text_generator.set_center_alignment();
-        description_text_generator.generate(0, -40, "- press A to play", text_sprites);
-        description_text_generator.generate(0, -20, "- press A to call", text_sprites);
-        description_text_generator.generate(0, 0, "- press B to fold", text_sprites);
+        description_text_generator.generate(0, -20, "- press A to play", text_sprites);
+        description_text_generator.generate(0, 0, "- press A to call", text_sprites);
+        description_text_generator.generate(0, 20, "- press B to fold", text_sprites);
+        description_text_generator.generate(0, 40, "- if you lose you money it's over", text_sprites);
 
         bool play = true;
         while (play)
